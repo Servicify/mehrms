@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.servicify.mehrms.mapper.AccountsMailSendStatusMapper" >
+  <resultMap id="BaseResultMap" type="org.servicify.mehrms.model.AccountsMailSendStatus" >
+    <id column="accountsMailId" property="accountsMailId" jdbcType="INTEGER" />
+    <result column="accountsBaseInfoId" property="accountsBaseInfoId" jdbcType="INTEGER" />
+    <result column="status" property="status" jdbcType="BIT" />
+    <result column="sendDate" property="sendDate" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    accountsMailId, accountsBaseInfoId, status, sendDate
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from accounts_mail_send_status
+    where accountsMailId = #{accountsMailId,jdbcType=INTEGER}
+  </select>
+  <select id="selectByAccountsBaseInfoIdKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select
+    <include refid="Base_Column_List" />
+    from accounts_mail_send_status
+    where accountsBaseInfoId = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from accounts_mail_send_status
+    where accountsMailId = #{accountsMailId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="org.servicify.mehrms.model.AccountsMailSendStatus" >
+    insert into accounts_mail_send_status (accountsMailId, accountsBaseInfoId, 
+      status, sendDate)
+    values (#{accountsMailId,jdbcType=INTEGER}, #{accountsBaseInfoId,jdbcType=INTEGER}, 
+      #{status,jdbcType=BIT}, #{sendDate,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="org.servicify.mehrms.model.AccountsMailSendStatus" useGeneratedKeys="true"
+          keyProperty="accountsMailId">
+    insert into accounts_mail_send_status
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="accountsMailId != null" >
+        accountsMailId,
+      </if>
+      <if test="accountsBaseInfoId != null" >
+        accountsBaseInfoId,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="sendDate != null" >
+        sendDate,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="accountsMailId != null" >
+        #{accountsMailId,jdbcType=INTEGER},
+      </if>
+      <if test="accountsBaseInfoId != null" >
+        #{accountsBaseInfoId,jdbcType=INTEGER},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=BIT},
+      </if>
+      <if test="sendDate != null" >
+        #{sendDate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="org.servicify.mehrms.model.AccountsMailSendStatus" >
+    update accounts_mail_send_status
+    <set >
+      <if test="accountsBaseInfoId != null" >
+        accountsBaseInfoId = #{accountsBaseInfoId,jdbcType=INTEGER},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=BIT},
+      </if>
+      <if test="sendDate != null" >
+        sendDate = #{sendDate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where accountsMailId = #{accountsMailId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="org.servicify.mehrms.model.AccountsMailSendStatus" >
+    update accounts_mail_send_status
+    set accountsBaseInfoId = #{accountsBaseInfoId,jdbcType=INTEGER},
+      status = #{status,jdbcType=BIT},
+      sendDate = #{sendDate,jdbcType=TIMESTAMP}
+    where accountsMailId = #{accountsMailId,jdbcType=INTEGER}
+  </update>
+  <!--
+    /**
+      * Created by Servicify
+      * Date 2021/6/7
+      * Time 9:08
+    **/
+-->
+</mapper>

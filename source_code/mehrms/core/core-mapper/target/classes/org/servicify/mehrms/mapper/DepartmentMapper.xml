@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.servicify.mehrms.mapper.DepartmentMapper" >
+  <resultMap id="BaseResultMap" type="org.servicify.mehrms.model.Department" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="parentId" property="parentId" jdbcType="INTEGER" />
+    <result column="depPath" property="depPath" jdbcType="VARCHAR" />
+    <result column="isParent" property="isParent" jdbcType="BIT" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, name, parentId, depPath,  isParent
+  </sql>
+
+<!--  定义一个新查询方法,查询存在的且可用的部门信息-->
+  <select id="getAllDepartmentsByParentId" resultMap="DepartementWithChildren">
+    select * from department where parentId=#{pid};
+  </select>
+
+  <select id="getAllDepartments" resultMap="BaseResultMap">
+    select * from department;
+  </select>
+<!--  定义一个新的返回类型，下述类型可以自行实现递归发方法，若需要实现懒加载，则需要在collection标签中加入fetchType="lazy"-->
+<!--  mybatis 获得多级用collection 放孩子节点-->
+<!--  column="id"为参数-->
+  <resultMap id="DepartementWithChildren" type="org.servicify.mehrms.model.Department" extends="BaseResultMap">
+    <collection property="children" ofType="org.servicify.mehrms.model.Department"
+                select="org.servicify.mehrms.mapper.DepartmentMapper.getAllDepartmentsByParentId" column="id"/>
+  </resultMap>
+<!--  定义一个插入数据的，且调用数据库服务器中的存储过程的语句;CALLABLE  statement 即用来调用存储过程的-->
+  <select id="addDep" statementType="CALLABLE">
+    call addDep(#{name,mode=IN,jdbcType=VARCHAR},#{parentId,mode=IN,jdbcType=INTEGER}
+    ,#{result,mode=OUT,jdbcType=INTEGER},#{id,mode=OUT,jdbcType=INTEGER})
+  </select>
+<!--  定义一个删除数据的，且调用数据库服务器中的存储过程的语句;CALLABLE  statement 即用来调用存储过程的-->
+  <select id="deleteDepById" statementType="CALLABLE">
+    call deleteDep(#{id,mode=IN,jdbcType=INTEGER},#{result,mode=OUT,jdbcType=INTEGER})
+  </select>
+<!--  为导入数据接口创建一个不需要递归查询的方法-->
+  <select id="getAllDepartmentsWithOutChildren" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+    select
+        <!-- 插入sql片段 -->
+        <include refid="Base_Column_List"/>
+    from department;
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from department
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from department
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="org.servicify.mehrms.model.Department" >
+    insert into department (id, name, parentId, 
+      depPath, isParent)
+    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{parentId,jdbcType=INTEGER}, 
+      #{depPath,jdbcType=VARCHAR}, #{isParent,jdbcType=BIT})
+  </insert>
+  <insert id="insertSelective" parameterType="org.servicify.mehrms.model.Department" >
+    insert into department
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="parentId != null" >
+        parentId,
+      </if>
+      <if test="depPath != null" >
+        depPath,
+      </if>
+      <if test="isParent != null" >
+        isParent,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="parentId != null" >
+        #{parentId,jdbcType=INTEGER},
+      </if>
+      <if test="depPath != null" >
+        #{depPath,jdbcType=VARCHAR},
+      </if>
+      <if test="isParent != null" >
+        #{isParent,jdbcType=BIT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="org.servicify.mehrms.model.Department" >
+    update department
+    <set >
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="parentId != null" >
+        parentId = #{parentId,jdbcType=INTEGER},
+      </if>
+      <if test="depPath != null" >
+        depPath = #{depPath,jdbcType=VARCHAR},
+      </if>
+      <if test="isParent != null" >
+        isParent = #{isParent,jdbcType=BIT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="org.servicify.mehrms.model.Department" >
+    update department
+    set name = #{name,jdbcType=VARCHAR},
+      parentId = #{parentId,jdbcType=INTEGER},
+      depPath = #{depPath,jdbcType=VARCHAR},
+      isParent = #{isParent,jdbcType=BIT}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <!--
+    /**
+      * Created by Servicify
+      * Date 2021/6/7
+      * Time 9:08
+    **/
+-->
+</mapper>

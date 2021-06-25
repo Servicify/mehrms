@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.servicify.mehrms.mapper.AccountsRoleMapper" >
+  <resultMap id="BaseResultMap" type="org.servicify.mehrms.model.AccountsRole" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="accountsBaseInfoId" property="accountsBaseInfoId" jdbcType="INTEGER" />
+    <result column="accountsAdvInfoId" property="accountsAdvInfoId" jdbcType="INTEGER" />
+    <result column="accountsAllId" property="accountsAllId" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, accountsBaseInfoId, accountsAdvInfoId, accountsAllId
+  </sql>
+<!--通过Base ID或者AccountsALlID进行直接获取对应的记录-->
+  <select id="selectByBaseId" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select
+    <include refid="Base_Column_List" />
+    from accountsrole
+    where accountsBaseInfoId = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectByAccountsAllId" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select
+    <include refid="Base_Column_List" />
+    from accountsrole
+    where accountsAllId = #{id,jdbcType=INTEGER}
+  </select>
+
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from accountsrole
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from accountsrole
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="org.servicify.mehrms.model.AccountsRole" >
+    insert into accountsrole (id, accountsBaseInfoId, accountsAdvInfoId, 
+      accountsAllId)
+    values (#{id,jdbcType=INTEGER}, #{accountsBaseInfoId,jdbcType=INTEGER}, #{accountsAdvInfoId,jdbcType=INTEGER}, 
+      #{accountsAllId,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="org.servicify.mehrms.model.AccountsRole" useGeneratedKeys="true"
+          keyProperty="id">
+    insert into accountsrole
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="accountsBaseInfoId != null" >
+        accountsBaseInfoId,
+      </if>
+      <if test="accountsAdvInfoId != null" >
+        accountsAdvInfoId,
+      </if>
+      <if test="accountsAllId != null" >
+        accountsAllId,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="accountsBaseInfoId != null" >
+        #{accountsBaseInfoId,jdbcType=INTEGER},
+      </if>
+      <if test="accountsAdvInfoId != null" >
+        #{accountsAdvInfoId,jdbcType=INTEGER},
+      </if>
+      <if test="accountsAllId != null" >
+        #{accountsAllId,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="org.servicify.mehrms.model.AccountsRole" >
+    update accountsrole
+    <set >
+      <if test="accountsBaseInfoId != null" >
+        accountsBaseInfoId = #{accountsBaseInfoId,jdbcType=INTEGER},
+      </if>
+      <if test="accountsAdvInfoId != null" >
+        accountsAdvInfoId = #{accountsAdvInfoId,jdbcType=INTEGER},
+      </if>
+      <if test="accountsAllId != null" >
+        accountsAllId = #{accountsAllId,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="org.servicify.mehrms.model.AccountsRole" >
+    update accountsrole
+    set accountsBaseInfoId = #{accountsBaseInfoId,jdbcType=INTEGER},
+      accountsAdvInfoId = #{accountsAdvInfoId,jdbcType=INTEGER},
+      accountsAllId = #{accountsAllId,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <!--
+    /**
+      * Created by Servicify
+      * Date 2021/6/7
+      * Time 9:08
+    **/
+-->
+</mapper>

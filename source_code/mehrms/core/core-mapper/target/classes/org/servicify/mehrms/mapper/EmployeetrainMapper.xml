@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.servicify.mehrms.mapper.EmployeetrainMapper" >
+  <resultMap id="BaseResultMap" type="org.servicify.mehrms.model.Employeetrain" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="eid" property="eid" jdbcType="INTEGER" />
+    <result column="trainBeginDate" property="trainBeginDate" jdbcType="DATE" />
+    <result column="trainEndDate" property="trainEndDate" jdbcType="DATE" />
+    <result column="trainContent" property="trainContent" jdbcType="VARCHAR" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="AllTrainRecordsInfo" type="org.servicify.mehrms.model.Employeetrain" extends="BaseResultMap">
+    <association property="employee" javaType="org.servicify.mehrms.model.Employee">
+      <id column="eid" property="id" jdbcType="INTEGER"/>
+      <result column="name" property="name" jdbcType="VARCHAR"/>
+    </association>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, eid, trainBeginDate, trainEndDate, trainContent, remark
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from employeetrain
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+<!--  查询信息（条件）-->
+  <select id="getTrainRecordsByPage" resultMap="AllTrainRecordsInfo">
+    select empt.*,e.id,e.name
+    from employeetrain empt
+    LEFT JOIN employee e ON empt.`eid`=e.`id`
+    <where>
+    <if test="employeetrain!=null">
+      <if test="employeetrain.trainContent !=null and employeetrain.trainContent!=''">
+        and empt.trainContent like concat('%',#{employeetrain.trainContent},'%')
+      </if>
+      <if test="employeetrain.eid !=null">
+        and empt.eid =#{employeetrain.eid}
+      </if>
+      <if test="employeetrain.remark !=null and employeetrain.remark!=''">
+        and empt.remark like concat('%',#{employeetrain.remark},'%')
+      </if>
+      <if test="beginDateScope !=null">
+        and empt.trainBeginDate between #{beginDateScope[0]} and #{beginDateScope[1]}
+        and empt.trainEndDate between #{beginDateScope[0]} and #{beginDateScope[1]}
+      </if>
+    </if>
+    </where>
+    order by empt.`id` DESC
+      <if test="page !=null and size!=null">
+        limit #{page},#{size}
+      </if>
+  </select>
+  <select id="getAllRecordsInfosByMonths" resultMap="AllTrainRecordsInfo">
+  select empt.*
+  from employeetrain empt
+  where
+    empt.trainBeginDate between #{startDate} and #{endDate}
+    and empt.trainEndDate between #{startDate} and #{endDate}
+</select>
+<!-- 获取页面总数 -->
+  <select id="getTotal" resultType="java.lang.Long">
+    select count(*)
+    from employeetrain empt
+    LEFT JOIN employee e ON empt.`eid`=e.`id`
+    <where>
+      <if test="employeetrain!=null">
+        <if test="employeetrain.trainContent !=null ">
+          and empt.trainContent like concat('%',#{employeetrain.trainContent},'%')
+        </if>
+        <if test="employeetrain.eid !=null">
+          and empt.eid =#{employeetrain.eid}
+        </if>
+        <if test="employeetrain.remark !=null">
+          and empt.remark like concat('%',#{employeetrain.remark},'%')
+        </if>
+        <if test="beginDateScope !=null">
+          and empt.trainBeginDate between #{beginDateScope[0]} and #{beginDateScope[1]}
+          and empt.trainEndDate between #{beginDateScope[0]} and #{beginDateScope[1]}
+        </if>
+      </if>
+    </where>
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from employeetrain
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="org.servicify.mehrms.model.Employeetrain" >
+    insert into employeetrain (id, eid, trainBeginDate,
+      trainEndDate, trainContent, remark
+      )
+    values (#{id,jdbcType=INTEGER}, #{eid,jdbcType=INTEGER}, #{trainBeginDate,jdbcType=DATE},
+      #{trainEndDate,jdbcType=DATE}, #{trainContent,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="org.servicify.mehrms.model.Employeetrain" useGeneratedKeys="true"
+          keyProperty="id">
+    insert into employeetrain
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="eid != null" >
+        eid,
+      </if>
+      <if test="trainBeginDate != null" >
+        trainBeginDate,
+      </if>
+      <if test="trainEndDate != null" >
+        trainEndDate,
+      </if>
+      <if test="trainContent != null" >
+        trainContent,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="eid != null" >
+        #{eid,jdbcType=INTEGER},
+      </if>
+      <if test="trainBeginDate != null" >
+        #{trainBeginDate,jdbcType=DATE},
+      </if>
+      <if test="trainEndDate != null" >
+        #{trainEndDate,jdbcType=DATE},
+      </if>
+      <if test="trainContent != null" >
+        #{trainContent,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="org.servicify.mehrms.model.Employeetrain" >
+    update employeetrain
+    <set >
+      <if test="eid != null" >
+        eid = #{eid,jdbcType=INTEGER},
+      </if>
+      <if test="trainBeginDate != null" >
+        trainBeginDate = #{trainBeginDate,jdbcType=DATE},
+      </if>
+      <if test="trainEndDate != null" >
+        trainEndDate = #{trainEndDate,jdbcType=DATE},
+      </if>
+      <if test="trainContent != null" >
+        trainContent = #{trainContent,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="org.servicify.mehrms.model.Employeetrain" >
+    update employeetrain
+    set eid = #{eid,jdbcType=INTEGER},
+      trainBeginDate = #{trainBeginDate,jdbcType=DATE},
+      trainEndDate = #{trainEndDate,jdbcType=DATE},
+      trainContent = #{trainContent,jdbcType=VARCHAR},
+      remark = #{remark,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <!--
+    /**
+      * Created by Servicify
+      * Date 2021/6/7
+      * Time 9:08
+    **/
+-->
+</mapper>

@@ -1,0 +1,758 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.servicify.mehrms.mapper.AccountsBaseInfoMapper" >
+  <resultMap id="BaseResultMap" type="org.servicify.mehrms.model.AccountsBaseInfo" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="eid" property="eid" jdbcType="INTEGER" />
+    <result column="createDate" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="sendDate" property="sendDate" jdbcType="TIMESTAMP" />
+    <result column="startDate" property="startDate" jdbcType="TIMESTAMP" />
+    <result column="endDate" property="endDate" jdbcType="TIMESTAMP" />
+    <result column="dname" property="dname" jdbcType="VARCHAR" />
+    <result column="pname" property="pname" jdbcType="VARCHAR" />
+    <result column="jname" property="jname" jdbcType="VARCHAR" />
+    <result column="workAge" property="workAge" jdbcType="REAL" />
+    <result column="basicSalary" property="basicSalary" jdbcType="INTEGER" />
+    <result column="bonus" property="bonus" jdbcType="INTEGER" />
+    <result column="lunchSalary" property="lunchSalary" jdbcType="INTEGER" />
+    <result column="trafficSalary" property="trafficSalary" jdbcType="INTEGER" />
+    <result column="pensionBase" property="pensionBase" jdbcType="INTEGER" />
+    <result column="pensionPer" property="pensionPer" jdbcType="REAL" />
+    <result column="medicalBase" property="medicalBase" jdbcType="INTEGER" />
+    <result column="medicalPer" property="medicalPer" jdbcType="REAL" />
+    <result column="accumulationFundBase" property="accumulationFundBase" jdbcType="INTEGER" />
+    <result column="accumulationFundPer" property="accumulationFundPer" jdbcType="REAL" />
+    <result column="sname" property="sname" jdbcType="VARCHAR" />
+    <result column="times" property="times" jdbcType="REAL" />
+    <result column="others" property="others" jdbcType="REAL" />
+    <result column="deduct" property="deduct" jdbcType="REAL" />
+    <result column="prepaid" property="prepaid" jdbcType="REAL" />
+    <result column="recordPer" property="recordPer" jdbcType="REAL" />
+    <result column="realSalary" property="realSalary" jdbcType="REAL" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="enabled" property="enabled" jdbcType="BIT" />
+    <result column="cashierName" property="cashierName" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="CountsInfo" type="org.servicify.mehrms.model.AccountsBaseInfo" extends="BaseResultMap">
+    <association property="employee" javaType="org.servicify.mehrms.model.Employee">
+      <id column="id" property="id" jdbcType="INTEGER"/>
+      <result column="name" property="name" jdbcType="VARCHAR"/>
+      <result column="workID" property="workID" jdbcType="CHAR"/>
+    </association>
+    <association property="work_age" javaType="org.servicify.mehrms.model.Work_Age">
+      <id column="id" property="id" jdbcType="INTEGER"/>
+      <result column="workAge" property="workAge" jdbcType="REAL" />
+    </association>
+    <association property="department" javaType="org.servicify.mehrms.model.Department">
+      <id column="id" property="id" jdbcType="INTEGER"/>
+      <result column="dname" property="name" jdbcType="VARCHAR"/>
+    </association>
+    <association property="position" javaType="org.servicify.mehrms.model.Position">
+      <id column="id" property="id" jdbcType="INTEGER"/>
+      <result column="pname" property="name" jdbcType="VARCHAR"/>
+    </association>
+    <association property="jobLevel" javaType="org.servicify.mehrms.model.JobLevel">
+      <id column="id" property="id" jdbcType="INTEGER"/>
+      <result column="jname" property="name" jdbcType="VARCHAR"/>
+    </association>
+    <association property="salary" javaType="org.servicify.mehrms.model.Salary">
+      <id column="id" property="id" jdbcType="INTEGER"/>
+      <result column="basicSalary" property="basicSalary" jdbcType="INTEGER"/>
+      <result column="bonus" property="bonus" jdbcType="INTEGER"/>
+      <result column="lunchSalary" property="lunchSalary" jdbcType="INTEGER"/>
+      <result column="trafficSalary" property="trafficSalary" jdbcType="INTEGER"/>
+      <result column="pensionBase" property="pensionBase" jdbcType="INTEGER"/>
+      <result column="pensionPer" property="pensionPer" jdbcType="REAL"/>
+      <result column="medicalBase" property="medicalBase" jdbcType="INTEGER"/>
+      <result column="medicalPer" property="medicalPer" jdbcType="REAL"/>
+      <result column="accumulationFundBase" property="accumulationFundBase" jdbcType="INTEGER"/>
+      <result column="accumulationFundPer" property="accumulationFundPer" jdbcType="REAL"/>
+      <result column="sname" property="name" jdbcType="VARCHAR"/>
+    </association>
+    <association property="argsRole" javaType="org.servicify.mehrms.model.ArgsRole">
+      <id column="id" property="id" jdbcType="INTEGER" />
+      <result column="times" property="times" jdbcType="REAL" />
+      <result column="others" property="others" jdbcType="REAL" />
+      <result column="deduct" property="deduct" jdbcType="REAL" />
+      <result column="recordPer" property="recordPer" jdbcType="REAL" />
+      <result column="count" property="count" jdbcType="REAL" />
+    </association>
+    <association property="accountsAdvInfo" javaType="org.servicify.mehrms.model.AccountsAdvInfo">
+      <id column="id" property="id" jdbcType="INTEGER" />
+      <result column="allSalary" property="allSalary" jdbcType="REAL" />
+      <result column="recordScore" property="recordScore" jdbcType="REAL" />
+      <result column="recordSalary" property="recordSalary" jdbcType="REAL" />
+      <result column="count" property="count" jdbcType="REAL" />
+      <result column="creditEmp" property="creditEmp" jdbcType="REAL" />
+      <result column="creditCom" property="creditCom" jdbcType="REAL" />
+    </association>
+    <association property="accountsAll" javaType="org.servicify.mehrms.model.AccountsAll">
+      <id column="id" property="id" jdbcType="INTEGER" />
+      <result column="startDate" property="startDate" jdbcType="TIMESTAMP" />
+      <result column="endDate" property="endDate" jdbcType="TIMESTAMP" />
+      <result column="allCount" property="allCount" jdbcType="REAL" />
+      <result column="allRealSalary" property="allRealSalary" jdbcType="REAL" />
+      <result column="allCreditEmp" property="allCreditEmp" jdbcType="REAL" />
+      <result column="allCreditCom" property="allCreditCom" jdbcType="REAL" />
+      <result column="avgRecordBonus" property="avgRecordBonus" jdbcType="REAL" />
+    </association>
+    <association property="accountsMailSendStatus" javaType="org.servicify.mehrms.model.AccountsMailSendStatus">
+      <id column="maccountsMailId" property="accountsMailId" jdbcType="INTEGER" />
+      <result column="maccountsBaseInfoId" property="accountsBaseInfoId" jdbcType="INTEGER" />
+      <result column="mStatus" property="status" jdbcType="BIT" />
+      <result column="mSendDate" property="sendDate" jdbcType="TIMESTAMP" />
+    </association>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, eid, createDate, sendDate, startDate, endDate, dname, pname, jname, workAge,
+    basicSalary, bonus, lunchSalary, trafficSalary, pensionBase, pensionPer, medicalBase,
+    medicalPer, accumulationFundBase, accumulationFundPer, sname, times, others, deduct,
+    prepaid, recordPer, realSalary, remark, enabled, cashierName
+  </sql>
+  <!--  查询所需要插入本表的阶段员工基础工资信息表的信息-->
+  <select id="getCreateInfo" resultMap="CountsInfo">
+    select e.id,d.name as dname,p.name as pname,j.name as jname,s.basicSalary,
+    s.bonus,s.lunchSalary,s.trafficSalary,s.pensionBase,s.pensionPer,s.medicalBase,
+    s.medicalPer,s.accumulationFundBase,s.accumulationFundPer,s.name as sname,
+    ar.times,ar.others,ar.deduct,ar.recordPer,ar.count,work_age.workAge
+    from    args_role ar
+        LEFT JOIN employee e ON ar.eid=e.id
+        LEFT JOIN department d ON e.departmentId=d.id
+        LEFT JOIN position p ON e.posId=p.id
+        LEFT JOIN jobLevel j ON e.jobLevelId=j.id
+        LEFT JOIN empsalary es ON e.id=es.eid
+        LEFT JOIN salary s ON es.sid=s.id
+        LEFT JOIN work_age ON work_age.eid=e.id
+		where e.workState='在职'
+  </select>
+
+
+  <select id="getAllInfos" resultMap="CountsInfo" >
+  select e.name,e.workID,abi.id, abi.eid, abi.createDate, abi.sendDate,
+  abi.startDate, abi.endDate, abi.dname, abi.pname, abi.jname,abi.workAge,
+  abi.basicSalary, abi.bonus, abi.lunchSalary, abi.trafficSalary, abi.pensionBase,
+  abi.pensionPer, abi.medicalBase,abi.medicalPer, abi.accumulationFundBase,
+  abi.accumulationFundPer, abi.sname, abi.times, abi.others, abi.deduct,
+  abi.prepaid, abi.recordPer, abi.realSalary, abi.remark, abi.enabled, abi.cashierName,
+  adi.allSalary,  adi.recordScore,  adi.count,  adi.creditEmp,  adi.creditCom, adi.recordSalary,
+  accall.startDate as accallStartDate, accall.endDate as accallEndDate,accall.allCount,
+  accall.allRealSalary, accall.allCreditEmp, accall.allCreditCom, accall.avgRecordBonus
+  from accountsBaseInfo abi
+  LEFT JOIN accountsRole accr ON abi.id=accr.accountsBaseInfoId
+  LEFT JOIN accountsAdvInfo adi ON accr.accountsAdvInfoId=adi.id
+  LEFT JOIN accountsall accall ON accr.accountsAllId=accall.id
+  LEFT JOIN employee e ON abi.eid=e.id
+  </select>
+
+  <select id="getAccountsBaseInfoById" resultMap="CountsInfo" >
+  select e.name,e.workID,abi.id, abi.eid, abi.createDate, abi.sendDate,
+  abi.startDate, abi.endDate, abi.dname, abi.pname, abi.jname,abi.workAge,
+  abi.basicSalary, abi.bonus, abi.lunchSalary, abi.trafficSalary, abi.pensionBase,
+  abi.pensionPer, abi.medicalBase,abi.medicalPer, abi.accumulationFundBase,
+  abi.accumulationFundPer, abi.sname, abi.times, abi.others, abi.deduct,
+  abi.prepaid, abi.recordPer, abi.realSalary, abi.remark, abi.enabled, abi.cashierName,
+  adi.allSalary,  adi.recordScore,  adi.count,  adi.creditEmp,  adi.creditCom, adi.recordSalary,
+  accall.startDate as accallStartDate, accall.endDate as accallEndDate,accall.allCount,
+  accall.allRealSalary, accall.allCreditEmp, accall.allCreditCom, accall.avgRecordBonus
+  from accountsBaseInfo abi
+  LEFT JOIN accountsRole accr ON abi.id=accr.accountsBaseInfoId
+  LEFT JOIN accountsAdvInfo adi ON accr.accountsAdvInfoId=adi.id
+  LEFT JOIN accountsall accall ON accr.accountsAllId=accall.id
+  LEFT JOIN employee e ON abi.eid=e.id
+  where abi.id = #{id,jdbcType=INTEGER}
+  </select>
+
+  <!--  查询本表所有信息-->
+  <select id="getAllInfoByPage" resultMap="CountsInfo">
+    select e.name,e.workID,abi.id, abi.eid, abi.createDate, abi.sendDate,
+    abi.startDate, abi.endDate, abi.dname, abi.pname, abi.jname,abi.workAge,
+    abi.basicSalary, abi.bonus, abi.lunchSalary, abi.trafficSalary, abi.pensionBase,
+    abi.pensionPer, abi.medicalBase,abi.medicalPer, abi.accumulationFundBase,
+    abi.accumulationFundPer, abi.sname, abi.times, abi.others, abi.deduct,
+    abi.prepaid, abi.recordPer, abi.realSalary, abi.remark, abi.enabled, abi.cashierName,
+    adi.allSalary,  adi.recordScore,  adi.count,  adi.creditEmp,  adi.creditCom, adi.recordSalary,
+    accall.startDate as accallStartDate, accall.endDate as accallEndDate,accall.allCount,
+    accall.allRealSalary, accall.allCreditEmp, accall.allCreditCom, accall.avgRecordBonus,
+    mail.accountsBaseInfoId as maccountsBaseInfoId,mail.accountsMailId as maccountsMailId,mail.sendDate as mSendDate,
+    mail.status as mStatus
+    from accountsBaseInfo abi
+    LEFT JOIN accountsRole accr ON abi.id=accr.accountsBaseInfoId
+    LEFT JOIN accountsAdvInfo adi ON accr.accountsAdvInfoId=adi.id
+    LEFT JOIN accountsall accall ON accr.accountsAllId=accall.id
+    LEFT JOIN employee e ON abi.eid=e.id
+    LEFT JOIN accounts_mail_send_status mail ON abi.id=mail.accountsBaseInfoId
+    where
+        abi.id!=0
+      <if test="abi!=null">
+        <if test="abi.dname !=null and abi.dname!=''">
+          and abi.dname like concat('%',#{abi.dname},'%')
+        </if>
+        <if test="abi.pname !=null and abi.pname!=''">
+          and abi.pname like concat('%',#{abi.pname},'%')
+        </if>
+        <if test="abi.jname !=null and abi.jname!=''">
+          and abi.jname like concat('%',#{abi.jname},'%')
+        </if>
+        <if test="abi.workAge !=null and abi.workAge!=''">
+          and abi.workAge =#{abi.workAge}
+        </if>
+        <if test="abi.remark !=null and abi.remark!=''">
+          and abi.remark like concat('%',#{abi.remark},'%')
+        </if>
+        <if test="abi.cashierName !=null and abi.cashierName!=''">
+          and abi.cashierName like concat('%',#{abi.cashierName},'%')
+        </if>
+        <if test="abi.eid !=null">
+          and abi.eid =#{abi.eid}
+        </if>
+        <if test="abi.id !=null">
+          and abi.id =#{abi.id}
+        </if>
+      </if>
+      <if test="RealSalaryScope !=null">
+        and accall.allRealSalary between #{RealSalaryScope[0]} and #{RealSalaryScope[1]}
+      </if>
+      <if test="CreditEmpScope !=null">
+        and accall.allCreditEmp between #{CreditEmpScope[0]} and #{CreditEmpScope[1]}
+      </if>
+      <if test="CreditComScope !=null">
+        and accall.allCreditCom between #{CreditComScope[0]} and #{CreditComScope[1]}
+      </if>
+      <if test="beginDateScope !=null">
+        and abi.startDate between #{beginDateScope[0]} and #{beginDateScope[1]}
+        and abi.endDate between #{beginDateScope[0]} and #{beginDateScope[1]}
+      </if>
+    order by id DESC ,eid ASC
+    <if test="page !=null and size!=null">
+      limit #{page},#{size}
+    </if>
+  </select>
+  <select id="getTotal" resultType="java.lang.Long">
+    select count(*)
+    from accountsBaseInfo abi
+    LEFT JOIN accountsRole accr ON abi.id=accr.accountsBaseInfoId
+    LEFT JOIN accountsAdvInfo adi ON accr.accountsAdvInfoId=adi.id
+    LEFT JOIN accountsall accall ON accr.accountsAllId=accall.id
+    LEFT JOIN employee e ON abi.eid=e.id
+    <where>
+      <if test="abi!=null">
+        <if test="abi.dname !=null and abi.dname!=''">
+          and abi.dname like concat('%',#{abi.dname},'%')
+        </if>
+        <if test="abi.pname !=null and abi.pname!=''">
+          and abi.pname like concat('%',#{abi.pname},'%')
+        </if>
+        <if test="abi.jname !=null and abi.jname!=''">
+          and abi.jname like concat('%',#{abi.jname},'%')
+        </if>
+        <if test="abi.workAge !=null and abi.workAge!=''">
+          and abi.workAge #{abi.workAge}
+        </if>
+        <if test="abi.remark !=null and abi.remark!=''">
+          and abi.remark like concat('%',#{abi.remark},'%')
+        </if>
+        <if test="abi.cashierName !=null and abi.cashierName!=''">
+          and abi.cashierName like concat('%',#{abi.cashierName},'%')
+        </if>
+        <if test="abi.eid !=null">
+          and abi.eid =#{abi.eid}
+        </if>
+      </if>
+      <if test="RealSalaryScope !=null">
+        and accall.allRealSalary between #{RealSalaryScope[0]} and #{RealSalaryScope[1]}
+      </if>
+      <if test="CreditEmpScope !=null">
+        and accall.allCreditEmp between #{CreditEmpScope[0]} and #{CreditEmpScope[1]}
+      </if>
+      <if test="CreditComScope !=null">
+        and accall.allCreditCom between #{CreditComScope[0]} and #{CreditComScope[1]}
+      </if>
+      <if test="beginDateScope !=null">
+        and abi.startDate between #{beginDateScope[0]} and #{beginDateScope[1]}
+        and abi.endDate between #{beginDateScope[0]} and #{beginDateScope[1]}
+      </if>
+    </where>
+  </select>
+  <!--  查询所有可修改的记录的信息-->
+  <select id="getAllEnabledInfoByPage" resultMap="CountsInfo">
+    select e.name,e.workID,abi.id, abi.eid, abi.createDate, abi.sendDate,
+    abi.startDate, abi.endDate, abi.dname, abi.pname, abi.jname,abi.workAge,
+    abi.basicSalary, abi.bonus, abi.lunchSalary, abi.trafficSalary, abi.pensionBase,
+    abi.pensionPer, abi.medicalBase,abi.medicalPer, abi.accumulationFundBase,
+    abi.accumulationFundPer, abi.sname, abi.times, abi.others, abi.deduct,
+    abi.prepaid, abi.recordPer, abi.realSalary, abi.remark, abi.enabled, abi.cashierName,
+    adi.allSalary,  adi.recordScore,  adi.count,  adi.creditEmp,  adi.creditCom, adi.recordSalary,
+    accall.startDate as accallStartDate, accall.endDate as accallEndDate,accall.allCount,
+    accall.allRealSalary, accall.allCreditEmp, accall.allCreditCom, accall.avgRecordBonus
+    from accountsBaseInfo abi
+    LEFT JOIN accountsRole accr ON abi.id=accr.accountsBaseInfoId
+    LEFT JOIN accountsAdvInfo adi ON accr.accountsAdvInfoId=adi.id
+    LEFT JOIN accountsall accall ON accr.accountsAllId=accall.id
+    LEFT JOIN employee e ON abi.eid=e.id
+    where
+    abi.enabled=1
+    <if test="abi!=null">
+      <if test="abi.dname !=null and abi.dname!=''">
+        and abi.dname like concat('%',#{abi.dname},'%')
+      </if>
+      <if test="abi.pname !=null and abi.pname!=''">
+        and abi.pname like concat('%',#{abi.pname},'%')
+      </if>
+      <if test="abi.jname !=null and abi.jname!=''">
+        and abi.jname like concat('%',#{abi.jname},'%')
+      </if>
+      <if test="abi.workAge !=null and abi.workAge!=''">
+        and abi.workAge =#{abi.workAge}
+      </if>
+      <if test="abi.eid !=null">
+        and abi.eid =#{abi.eid}
+      </if>
+    </if>
+    <if test="RealSalaryScope !=null">
+      and accall.allRealSalary between #{RealSalaryScope[0]} and #{RealSalaryScope[1]}
+    </if>
+    <if test="CreditEmpScope !=null">
+      and accall.allCreditEmp between #{CreditEmpScope[0]} and #{CreditEmpScope[1]}
+    </if>
+    <if test="CreditComScope !=null">
+      and accall.allCreditCom between #{CreditComScope[0]} and #{CreditComScope[1]}
+    </if>
+    <if test="beginDateScope !=null">
+      and abi.startDate between #{beginDateScope[0]} and #{beginDateScope[1]}
+      and abi.endDate between #{beginDateScope[0]} and #{beginDateScope[1]}
+    </if>
+    order by id ASC ,eid ASC
+    <if test="page !=null and size!=null">
+      limit #{page},#{size}
+    </if>
+  </select>
+  <select id="getEnabledTotal" resultType="java.lang.Long">
+    select count(*)
+    from accountsBaseInfo abi
+    LEFT JOIN accountsRole accr ON abi.id=accr.accountsBaseInfoId
+    LEFT JOIN accountsAdvInfo adi ON accr.accountsAdvInfoId=adi.id
+    LEFT JOIN accountsall accall ON accr.accountsAllId=accall.id
+    LEFT JOIN employee e ON abi.eid=e.id
+    where
+    abi.enabled=1
+    <if test="abi!=null">
+      <if test="abi.dname !=null and abi.dname!=''">
+        and abi.dname like concat('%',#{abi.dname},'%')
+      </if>
+      <if test="abi.pname !=null and abi.pname!=''">
+        and abi.pname like concat('%',#{abi.pname},'%')
+      </if>
+      <if test="abi.jname !=null and abi.jname!=''">
+        and abi.jname like concat('%',#{abi.jname},'%')
+      </if>
+      <if test="abi.workAge !=null and abi.workAge!=''">
+        and abi.workAge =#{abi.workAge}
+      </if>
+      <if test="abi.eid !=null">
+        and abi.eid =#{abi.eid}
+      </if>
+    </if>
+    <if test="RealSalaryScope !=null">
+      and accall.allRealSalary between #{RealSalaryScope[0]} and #{RealSalaryScope[1]}
+    </if>
+    <if test="CreditEmpScope !=null">
+      and accall.allCreditEmp between #{CreditEmpScope[0]} and #{CreditEmpScope[1]}
+    </if>
+    <if test="CreditComScope !=null">
+      and accall.allCreditCom between #{CreditComScope[0]} and #{CreditComScope[1]}
+    </if>
+    <if test="beginDateScope !=null">
+      and abi.startDate between #{beginDateScope[0]} and #{beginDateScope[1]}
+      and abi.endDate between #{beginDateScope[0]} and #{beginDateScope[1]}
+    </if>
+  </select>
+  <select id="getInfosByMonths" resultMap="CountsInfo">
+    select abi.id, abi.eid, abi.createDate, abi.sendDate,
+    abi.startDate, abi.endDate, abi.dname, abi.pname, abi.jname,abi.workAge,
+    abi.basicSalary, abi.bonus, abi.lunchSalary, abi.trafficSalary, abi.pensionBase,
+    abi.pensionPer, abi.medicalBase,abi.medicalPer, abi.accumulationFundBase,
+    abi.accumulationFundPer, abi.sname, abi.times, abi.others, abi.deduct,
+    abi.prepaid, abi.recordPer, abi.realSalary, abi.remark, abi.enabled, abi.cashierName,
+    adi.allSalary,  adi.recordScore,  adi.count,  adi.creditEmp,  adi.creditCom, adi.recordSalary
+    from accountsBaseInfo abi
+    LEFT JOIN accountsRole accr ON abi.id=accr.accountsBaseInfoId
+    LEFT JOIN accountsAdvInfo adi ON accr.accountsAdvInfoId=adi.id
+    where abi.startDate = #{startDate}
+    and abi.endDate = #{endDate}
+  </select>
+  <select id="getAllInfosByMonths" resultMap="CountsInfo">
+  select abi.id, abi.eid, abi.createDate, abi.sendDate,
+  abi.startDate, abi.endDate, abi.dname, abi.pname, abi.jname,abi.workAge,
+  abi.basicSalary, abi.bonus, abi.lunchSalary, abi.trafficSalary, abi.pensionBase,
+  abi.pensionPer, abi.medicalBase,abi.medicalPer, abi.accumulationFundBase,
+  abi.accumulationFundPer, abi.sname, abi.times, abi.others, abi.deduct,
+  abi.prepaid, abi.recordPer, abi.realSalary, abi.remark, abi.enabled, abi.cashierName,
+  adi.allSalary,  adi.recordScore,  adi.count,  adi.creditEmp,  adi.creditCom, adi.recordSalary,
+  accall.startDate as accallStartDate, accall.endDate as accallEndDate,accall.allCount,
+  accall.allRealSalary, accall.allCreditEmp, accall.allCreditCom, accall.avgRecordBonus
+  from accountsBaseInfo abi
+  LEFT JOIN accountsRole accr ON abi.id=accr.accountsBaseInfoId
+  LEFT JOIN accountsAdvInfo adi ON accr.accountsAdvInfoId=adi.id
+  LEFT JOIN accountsall accall ON accr.accountsAllId=accall.id
+  where
+       abi.startDate = #{startDate} and abi.endDate = #{endDate}
+</select>
+
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select
+    <include refid="Base_Column_List" />
+    from accountsbaseinfo
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from accountsbaseinfo
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="org.servicify.mehrms.model.AccountsBaseInfo" >
+    insert into accountsbaseinfo (id, eid, createDate, 
+      sendDate, startDate, endDate, 
+      dname, pname, jname, 
+      workAge, basicSalary, bonus, 
+      lunchSalary, trafficSalary, pensionBase, 
+      pensionPer, medicalBase, medicalPer, 
+      accumulationFundBase, accumulationFundPer, 
+      sname, times, others, deduct, 
+      prepaid, recordPer, realSalary, 
+      remark, enabled, cashierName
+      )
+    values (#{id,jdbcType=INTEGER}, #{eid,jdbcType=INTEGER}, #{createDate,jdbcType=TIMESTAMP}, 
+      #{sendDate,jdbcType=TIMESTAMP}, #{startDate,jdbcType=TIMESTAMP}, #{endDate,jdbcType=TIMESTAMP}, 
+      #{dname,jdbcType=VARCHAR}, #{pname,jdbcType=VARCHAR}, #{jname,jdbcType=VARCHAR}, 
+      #{workAge,jdbcType=REAL}, #{basicSalary,jdbcType=INTEGER}, #{bonus,jdbcType=INTEGER}, 
+      #{lunchSalary,jdbcType=INTEGER}, #{trafficSalary,jdbcType=INTEGER}, #{pensionBase,jdbcType=INTEGER}, 
+      #{pensionPer,jdbcType=REAL}, #{medicalBase,jdbcType=INTEGER}, #{medicalPer,jdbcType=REAL}, 
+      #{accumulationFundBase,jdbcType=INTEGER}, #{accumulationFundPer,jdbcType=REAL}, 
+      #{sname,jdbcType=VARCHAR}, #{times,jdbcType=REAL}, #{others,jdbcType=REAL}, #{deduct,jdbcType=REAL}, 
+      #{prepaid,jdbcType=REAL}, #{recordPer,jdbcType=REAL}, #{realSalary,jdbcType=REAL}, 
+      #{remark,jdbcType=VARCHAR}, #{enabled,jdbcType=TINYINT}, #{cashierName,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="org.servicify.mehrms.model.AccountsBaseInfo" useGeneratedKeys="true"
+          keyProperty="id">
+    insert into accountsbaseinfo
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="eid != null" >
+        eid,
+      </if>
+      <if test="createDate != null" >
+        createDate,
+      </if>
+      <if test="sendDate != null" >
+        sendDate,
+      </if>
+      <if test="startDate != null" >
+        startDate,
+      </if>
+      <if test="endDate != null" >
+        endDate,
+      </if>
+      <if test="dname != null" >
+        dname,
+      </if>
+      <if test="pname != null" >
+        pname,
+      </if>
+      <if test="jname != null" >
+        jname,
+      </if>
+      <if test="workAge != null" >
+        workAge,
+      </if>
+      <if test="basicSalary != null" >
+        basicSalary,
+      </if>
+      <if test="bonus != null" >
+        bonus,
+      </if>
+      <if test="lunchSalary != null" >
+        lunchSalary,
+      </if>
+      <if test="trafficSalary != null" >
+        trafficSalary,
+      </if>
+      <if test="pensionBase != null" >
+        pensionBase,
+      </if>
+      <if test="pensionPer != null" >
+        pensionPer,
+      </if>
+      <if test="medicalBase != null" >
+        medicalBase,
+      </if>
+      <if test="medicalPer != null" >
+        medicalPer,
+      </if>
+      <if test="accumulationFundBase != null" >
+        accumulationFundBase,
+      </if>
+      <if test="accumulationFundPer != null" >
+        accumulationFundPer,
+      </if>
+      <if test="sname != null" >
+        sname,
+      </if>
+      <if test="times != null" >
+        times,
+      </if>
+      <if test="others != null" >
+        others,
+      </if>
+      <if test="deduct != null" >
+        deduct,
+      </if>
+      <if test="prepaid != null" >
+        prepaid,
+      </if>
+      <if test="recordPer != null" >
+        recordPer,
+      </if>
+      <if test="realSalary != null" >
+        realSalary,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+      <if test="enabled != null" >
+        enabled,
+      </if>
+      <if test="cashierName != null" >
+        cashierName,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="eid != null" >
+        #{eid,jdbcType=INTEGER},
+      </if>
+      <if test="createDate != null" >
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="sendDate != null" >
+        #{sendDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="startDate != null" >
+        #{startDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endDate != null" >
+        #{endDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="dname != null" >
+        #{dname,jdbcType=VARCHAR},
+      </if>
+      <if test="pname != null" >
+        #{pname,jdbcType=VARCHAR},
+      </if>
+      <if test="jname != null" >
+        #{jname,jdbcType=VARCHAR},
+      </if>
+      <if test="workAge != null" >
+        #{workAge,jdbcType=REAL},
+      </if>
+      <if test="basicSalary != null" >
+        #{basicSalary,jdbcType=INTEGER},
+      </if>
+      <if test="bonus != null" >
+        #{bonus,jdbcType=INTEGER},
+      </if>
+      <if test="lunchSalary != null" >
+        #{lunchSalary,jdbcType=INTEGER},
+      </if>
+      <if test="trafficSalary != null" >
+        #{trafficSalary,jdbcType=INTEGER},
+      </if>
+      <if test="pensionBase != null" >
+        #{pensionBase,jdbcType=INTEGER},
+      </if>
+      <if test="pensionPer != null" >
+        #{pensionPer,jdbcType=REAL},
+      </if>
+      <if test="medicalBase != null" >
+        #{medicalBase,jdbcType=INTEGER},
+      </if>
+      <if test="medicalPer != null" >
+        #{medicalPer,jdbcType=REAL},
+      </if>
+      <if test="accumulationFundBase != null" >
+        #{accumulationFundBase,jdbcType=INTEGER},
+      </if>
+      <if test="accumulationFundPer != null" >
+        #{accumulationFundPer,jdbcType=REAL},
+      </if>
+      <if test="sname != null" >
+        #{sname,jdbcType=VARCHAR},
+      </if>
+      <if test="times != null" >
+        #{times,jdbcType=REAL},
+      </if>
+      <if test="others != null" >
+        #{others,jdbcType=REAL},
+      </if>
+      <if test="deduct != null" >
+        #{deduct,jdbcType=REAL},
+      </if>
+      <if test="prepaid != null" >
+        #{prepaid,jdbcType=REAL},
+      </if>
+      <if test="recordPer != null" >
+        #{recordPer,jdbcType=REAL},
+      </if>
+      <if test="realSalary != null" >
+        #{realSalary,jdbcType=REAL},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="enabled != null" >
+        #{enabled,jdbcType=TINYINT},
+      </if>
+      <if test="cashierName != null" >
+        #{cashierName,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="org.servicify.mehrms.model.AccountsBaseInfo" >
+    update accountsbaseinfo
+    <set >
+      <if test="eid != null" >
+        eid = #{eid,jdbcType=INTEGER},
+      </if>
+      <if test="createDate != null" >
+        createDate = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="sendDate != null" >
+        sendDate = #{sendDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="startDate != null" >
+        startDate = #{startDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endDate != null" >
+        endDate = #{endDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="dname != null" >
+        dname = #{dname,jdbcType=VARCHAR},
+      </if>
+      <if test="pname != null" >
+        pname = #{pname,jdbcType=VARCHAR},
+      </if>
+      <if test="jname != null" >
+        jname = #{jname,jdbcType=VARCHAR},
+      </if>
+      <if test="workAge != null" >
+        workAge = #{workAge,jdbcType=REAL},
+      </if>
+      <if test="basicSalary != null" >
+        basicSalary = #{basicSalary,jdbcType=INTEGER},
+      </if>
+      <if test="bonus != null" >
+        bonus = #{bonus,jdbcType=INTEGER},
+      </if>
+      <if test="lunchSalary != null" >
+        lunchSalary = #{lunchSalary,jdbcType=INTEGER},
+      </if>
+      <if test="trafficSalary != null" >
+        trafficSalary = #{trafficSalary,jdbcType=INTEGER},
+      </if>
+      <if test="pensionBase != null" >
+        pensionBase = #{pensionBase,jdbcType=INTEGER},
+      </if>
+      <if test="pensionPer != null" >
+        pensionPer = #{pensionPer,jdbcType=REAL},
+      </if>
+      <if test="medicalBase != null" >
+        medicalBase = #{medicalBase,jdbcType=INTEGER},
+      </if>
+      <if test="medicalPer != null" >
+        medicalPer = #{medicalPer,jdbcType=REAL},
+      </if>
+      <if test="accumulationFundBase != null" >
+        accumulationFundBase = #{accumulationFundBase,jdbcType=INTEGER},
+      </if>
+      <if test="accumulationFundPer != null" >
+        accumulationFundPer = #{accumulationFundPer,jdbcType=REAL},
+      </if>
+      <if test="sname != null" >
+        sname = #{sname,jdbcType=VARCHAR},
+      </if>
+      <if test="times != null" >
+        times = #{times,jdbcType=REAL},
+      </if>
+      <if test="others != null" >
+        others = #{others,jdbcType=REAL},
+      </if>
+      <if test="deduct != null" >
+        deduct = #{deduct,jdbcType=REAL},
+      </if>
+      <if test="prepaid != null" >
+        prepaid = #{prepaid,jdbcType=REAL},
+      </if>
+      <if test="recordPer != null" >
+        recordPer = #{recordPer,jdbcType=REAL},
+      </if>
+      <if test="realSalary != null" >
+        realSalary = #{realSalary,jdbcType=REAL},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="enabled != null" >
+        enabled = #{enabled,jdbcType=TINYINT},
+      </if>
+      <if test="cashierName != null" >
+        cashierName = #{cashierName,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="org.servicify.mehrms.model.AccountsBaseInfo" >
+    update accountsbaseinfo
+    set eid = #{eid,jdbcType=INTEGER},
+      createDate = #{createDate,jdbcType=TIMESTAMP},
+      sendDate = #{sendDate,jdbcType=TIMESTAMP},
+      startDate = #{startDate,jdbcType=TIMESTAMP},
+      endDate = #{endDate,jdbcType=TIMESTAMP},
+      dname = #{dname,jdbcType=VARCHAR},
+      pname = #{pname,jdbcType=VARCHAR},
+      jname = #{jname,jdbcType=VARCHAR},
+      workAge = #{workAge,jdbcType=REAL},
+      basicSalary = #{basicSalary,jdbcType=INTEGER},
+      bonus = #{bonus,jdbcType=INTEGER},
+      lunchSalary = #{lunchSalary,jdbcType=INTEGER},
+      trafficSalary = #{trafficSalary,jdbcType=INTEGER},
+      pensionBase = #{pensionBase,jdbcType=INTEGER},
+      pensionPer = #{pensionPer,jdbcType=REAL},
+      medicalBase = #{medicalBase,jdbcType=INTEGER},
+      medicalPer = #{medicalPer,jdbcType=REAL},
+      accumulationFundBase = #{accumulationFundBase,jdbcType=INTEGER},
+      accumulationFundPer = #{accumulationFundPer,jdbcType=REAL},
+      sname = #{sname,jdbcType=VARCHAR},
+      times = #{times,jdbcType=REAL},
+      others = #{others,jdbcType=REAL},
+      deduct = #{deduct,jdbcType=REAL},
+      prepaid = #{prepaid,jdbcType=REAL},
+      recordPer = #{recordPer,jdbcType=REAL},
+      realSalary = #{realSalary,jdbcType=REAL},
+      remark = #{remark,jdbcType=VARCHAR},
+      enabled = #{enabled,jdbcType=TINYINT},
+      cashierName = #{cashierName,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <!--
+    /**
+      * Created by Servicify
+      * Date 2021/6/7
+      * Time 9:08
+    **/
+-->
+</mapper>

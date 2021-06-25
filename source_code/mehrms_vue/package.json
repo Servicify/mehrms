@@ -1,0 +1,38 @@
+{
+  "name": "mehrms",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "serve": "vue-cli-service serve",
+    "build": "vue-cli-service build"
+  },
+  "dependencies": {
+    "axios": "^0.21.1",
+    "compression-webpack-plugin": "^4.0.0",
+    "core-js": "^2.6.5",
+    "echarts": "^4.9.0",
+    "element-ui": "^2.14.1",
+    "font-awesome": "^4.7.0",
+    "run": "^1.4.0",
+    "v-charts": "^1.19.0",
+    "vue": "^2.6.10",
+    "vue-router": "^3.4.9",
+    "vuex": "^3.6.0",
+    "webpack": "^4.46.0",
+    "zrender": "^4.3.2"
+  },
+  "devDependencies": {
+    "@vue/cli-plugin-babel": "^3.0.4",
+    "@vue/cli-service": "^3.0.4",
+    "vue-template-compiler": "^2.6.10"
+  },
+  "postcss": {
+    "plugins": {
+      "autoprefixer": {}
+    }
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions"
+  ]
+}

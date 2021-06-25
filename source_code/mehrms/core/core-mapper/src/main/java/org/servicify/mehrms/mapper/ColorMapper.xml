@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.servicify.mehrms.mapper.ColorMapper" >
+  <resultMap id="BaseResultMap" type="org.servicify.mehrms.model.Color" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="hrid" property="hrid" jdbcType="INTEGER" />
+    <result column="backgroundColor" property="backgroundColor" jdbcType="VARCHAR" />
+    <result column="color" property="color" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, hrid, backgroundColor, color
+  </sql>
+
+  <select id="selectAllInfos" resultMap="BaseResultMap" >
+    select
+    <include refid="Base_Column_List" />
+    from color
+  </select>
+  <select id="selectByHrid" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select
+    <include refid="Base_Column_List" />
+    from color
+    where hrid = #{hrid,jdbcType=INTEGER}
+  </select>
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from color
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from color
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="org.servicify.mehrms.model.Color" >
+    insert into color (id, hrid, backgroundColor, 
+      color)
+    values (#{id,jdbcType=INTEGER}, #{hrid,jdbcType=INTEGER}, #{backgroundColor,jdbcType=VARCHAR}, 
+      #{color,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="org.servicify.mehrms.model.Color" >
+    insert into color
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="hrid != null" >
+        hrid,
+      </if>
+      <if test="backgroundColor != null" >
+        backgroundColor,
+      </if>
+      <if test="color != null" >
+        color,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="hrid != null" >
+        #{hrid,jdbcType=INTEGER},
+      </if>
+      <if test="backgroundColor != null" >
+        #{backgroundColor,jdbcType=VARCHAR},
+      </if>
+      <if test="color != null" >
+        #{color,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="org.servicify.mehrms.model.Color" >
+    update color
+    <set >
+      <if test="hrid != null" >
+        hrid = #{hrid,jdbcType=INTEGER},
+      </if>
+      <if test="backgroundColor != null" >
+        backgroundColor = #{backgroundColor,jdbcType=VARCHAR},
+      </if>
+      <if test="color != null" >
+        color = #{color,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="org.servicify.mehrms.model.Color" >
+    update color
+    set hrid = #{hrid,jdbcType=INTEGER},
+      backgroundColor = #{backgroundColor,jdbcType=VARCHAR},
+      color = #{color,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <!--
+    /**
+      * Created by Servicify
+      * Date 2021/6/7
+      * Time 9:08
+    **/
+-->
+</mapper>

@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.servicify.mehrms.mapper.EmpInfoMailStatusMapper" >
+  <resultMap id="BaseResultMap" type="org.servicify.mehrms.model.EmpInfoMailStatus" >
+    <id column="emp_info_mail_status_id" property="empInfoMailStatusId" jdbcType="INTEGER" />
+    <result column="eid" property="eid" jdbcType="INTEGER" />
+    <result column="status" property="status" jdbcType="BIT" />
+    <result column="sendDate" property="sendDate" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    emp_info_mail_status_id, eid, status, sendDate
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from emp_info_mail_status
+    where emp_info_mail_status_id = #{empInfoMailStatusId,jdbcType=INTEGER}
+  </select>
+
+  <select id="selectByEidKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select
+    <include refid="Base_Column_List" />
+    from emp_info_mail_status
+    where eid = #{eid,jdbcType=INTEGER}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from emp_info_mail_status
+    where emp_info_mail_status_id = #{empInfoMailStatusId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="org.servicify.mehrms.model.EmpInfoMailStatus" >
+    insert into emp_info_mail_status (emp_info_mail_status_id, eid, status, 
+      sendDate)
+    values (#{empInfoMailStatusId,jdbcType=INTEGER}, #{eid,jdbcType=INTEGER}, #{status,jdbcType=BIT}, 
+      #{sendDate,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="org.servicify.mehrms.model.EmpInfoMailStatus" useGeneratedKeys="true"
+          keyProperty="empInfoMailStatusId">
+    insert into emp_info_mail_status
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="empInfoMailStatusId != null" >
+        emp_info_mail_status_id,
+      </if>
+      <if test="eid != null" >
+        eid,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="sendDate != null" >
+        sendDate,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="empInfoMailStatusId != null" >
+        #{empInfoMailStatusId,jdbcType=INTEGER},
+      </if>
+      <if test="eid != null" >
+        #{eid,jdbcType=INTEGER},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=BIT},
+      </if>
+      <if test="sendDate != null" >
+        #{sendDate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="org.servicify.mehrms.model.EmpInfoMailStatus" >
+    update emp_info_mail_status
+    <set >
+      <if test="eid != null" >
+        eid = #{eid,jdbcType=INTEGER},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=BIT},
+      </if>
+      <if test="sendDate != null" >
+        sendDate = #{sendDate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where emp_info_mail_status_id = #{empInfoMailStatusId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="org.servicify.mehrms.model.EmpInfoMailStatus" >
+    update emp_info_mail_status
+    set eid = #{eid,jdbcType=INTEGER},
+      status = #{status,jdbcType=BIT},
+      sendDate = #{sendDate,jdbcType=TIMESTAMP}
+    where emp_info_mail_status_id = #{empInfoMailStatusId,jdbcType=INTEGER}
+  </update>
+  <!--
+    /**
+      * Created by Servicify
+      * Date 2021/6/7
+      * Time 9:08
+    **/
+-->
+</mapper>

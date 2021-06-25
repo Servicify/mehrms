@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>org.servicify</groupId>
+		<artifactId>mehrms</artifactId>
+		<version>2.1.6.RELEASE</version>
+	</parent>
+	<artifactId>core</artifactId>
+	<!--	以下配置<packaging>pom</packaging>的意思是使用maven分模块管理，
+            都会有一个父级项目，pom文件一个重要的属性就是packaging（打包类型），
+            一般来说所有的父级项目的packaging都为pom，packaging默认类型jar类
+            型，如果不做配置，maven会将该项目打成jar包。-->
+	<packaging>pom</packaging>
+	<modules>
+		<module>core-utils</module>
+		<module>core-mapper</module>
+		<module>core-model</module>
+		<module>core-service</module>
+		<module>core-web</module>
+	</modules>
+</project>

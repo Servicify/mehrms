@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.servicify.mehrms.mapper.RuleMapper" >
+  <resultMap id="BaseResultMap" type="org.servicify.mehrms.model.Rule" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="createDate" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="ruleName" property="ruleName" jdbcType="VARCHAR" />
+    <result column="ruleValue" property="ruleValue" jdbcType="INTEGER" />
+    <result column="enabled" property="enabled" jdbcType="BIT" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, createDate, ruleName, ruleValue, enabled
+  </sql>
+<!--  创建查询所有该表数据的方法-->
+  <select id="getAllRules" resultMap="BaseResultMap">
+    select * from rule;
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from rule
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="getAllEnabledRules" resultMap="BaseResultMap">
+    select * from rule where enabled=1
+  </select>
+<!--  创建通过单个规则名称查询对应的该条规则记录的值-->
+  <select id="selectByRuleName" resultMap="BaseResultMap" parameterType="org.servicify.mehrms.model.Rule">
+    select
+    <include refid="Base_Column_List" />
+    from rule
+    where ruleName like concat('%',#{ruleName,jdbcType=VARCHAR},'%')
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from rule
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="org.servicify.mehrms.model.Rule" >
+    insert into rule (id, createDate, ruleName, 
+      ruleValue, enabled)
+    values (#{id,jdbcType=INTEGER}, #{createDate,jdbcType=TIMESTAMP}, #{ruleName,jdbcType=VARCHAR}, 
+      #{ruleValue,jdbcType=INTEGER}, #{enabled,jdbcType=BIT})
+  </insert>
+  <insert id="insertSelective" parameterType="org.servicify.mehrms.model.Rule" >
+    insert into rule
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="createDate != null" >
+        createDate,
+      </if>
+      <if test="ruleName != null" >
+        ruleName,
+      </if>
+      <if test="ruleValue != null" >
+        ruleValue,
+      </if>
+      <if test="enabled != null" >
+        enabled,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="createDate != null" >
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="ruleName != null" >
+        #{ruleName,jdbcType=VARCHAR},
+      </if>
+      <if test="ruleValue != null" >
+        #{ruleValue,jdbcType=INTEGER},
+      </if>
+      <if test="enabled != null" >
+        #{enabled,jdbcType=BIT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="org.servicify.mehrms.model.Rule" >
+    update rule
+    <set >
+      <if test="createDate != null" >
+        createDate = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="ruleName != null" >
+        ruleName = #{ruleName,jdbcType=VARCHAR},
+      </if>
+      <if test="ruleValue != null" >
+        ruleValue = #{ruleValue,jdbcType=INTEGER},
+      </if>
+      <if test="enabled != null" >
+        enabled = #{enabled,jdbcType=BIT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="org.servicify.mehrms.model.Rule" >
+    update rule
+    set createDate = #{createDate,jdbcType=TIMESTAMP},
+      ruleName = #{ruleName,jdbcType=VARCHAR},
+      ruleValue = #{ruleValue,jdbcType=INTEGER},
+      enabled = #{enabled,jdbcType=BIT}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <delete id="deleteRulesByIds">
+    delete from rule where id in
+    <foreach collection="ids" item="id" close=")" open="(" separator=",">
+      #{id}
+    </foreach>
+  </delete>
+  <!--
+    /**
+      * Created by Servicify
+      * Date 2021/6/7
+      * Time 9:08
+    **/
+-->
+</mapper>

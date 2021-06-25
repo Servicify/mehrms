@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.servicify.mehrms.mapper.ArgsRoleMapper" >
+  <resultMap id="BaseResultMap" type="org.servicify.mehrms.model.ArgsRole" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="eid" property="eid" jdbcType="INTEGER" />
+    <result column="times" property="times" jdbcType="REAL" />
+    <result column="others" property="others" jdbcType="REAL" />
+    <result column="deduct" property="deduct" jdbcType="REAL" />
+    <result column="recordPer" property="recordPer" jdbcType="REAL" />
+    <result column="count" property="count" jdbcType="REAL" />
+  </resultMap>
+  <resultMap id="PerSalaryAllEmpInfos" type="org.servicify.mehrms.model.ArgsRole" extends="BaseResultMap">
+    <association property="employee" javaType="org.servicify.mehrms.model.Employee">
+      <id column="eid" property="id" jdbcType="INTEGER"/>
+      <result column="ename" property="name" jdbcType="VARCHAR"/>
+      <result column="workID" property="workID" jdbcType="CHAR"/>
+    </association>
+    <association property="department" javaType="org.servicify.mehrms.model.Department">
+      <id column="did" property="id" jdbcType="INTEGER"/>
+      <result column="dname" property="name" jdbcType="VARCHAR"/>
+    </association>
+    <association property="salary" javaType="org.servicify.mehrms.model.Salary">
+      <id column="sid" property="id" jdbcType="INTEGER"/>
+      <result column="sname" property="name" jdbcType="VARCHAR"/>
+      <result column="basicSalary" property="basicSalary" jdbcType="INTEGER"/>
+      <result column="bonus" property="bonus" jdbcType="INTEGER"/>
+      <result column="lunchSalary" property="lunchSalary" jdbcType="INTEGER"/>
+      <result column="trafficSalary" property="trafficSalary" jdbcType="INTEGER"/>
+      <result column="allSalary" property="allSalary" jdbcType="REAL"/>
+      <result column="pensionBase" property="pensionBase" jdbcType="INTEGER"/>
+      <result column="pensionPer" property="pensionPer" jdbcType="REAL"/>
+      <result column="createDate" property="createDate" jdbcType="TIMESTAMP"/>
+      <result column="medicalBase" property="medicalBase" jdbcType="INTEGER"/>
+      <result column="medicalPer" property="medicalPer" jdbcType="REAL"/>
+      <result column="accumulationFundBase" property="accumulationFundBase" jdbcType="INTEGER"/>
+      <result column="accumulationFundPer" property="accumulationFundPer" jdbcType="REAL"/>
+    </association>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, eid, times, others, deduct, recordPer, count
+  </sql>
+<!--  精准查询员工目前工资信息-->
+  <select id="getPerSalaryAllEmpInfoByPage" resultMap="PerSalaryAllEmpInfos">
+    select e.id as eid,e.name as ename,e.workID,d.id as did,d.name as dname,s.basicSalary,
+           s.bonus,s.lunchSalary,s.trafficSalary,s.allSalary,s.pensionBase,
+           s.pensionPer,s.createDate,s.medicalBase,s.medicalPer,s.accumulationFundBase,
+           s.accumulationFundPer,s.name as sname,ar.id,ar.eid as areid,ar.times,ar.others,ar.deduct,ar.recordPer,ar.count
+    from args_role ar LEFT JOIN employee e ON ar.eid=e.id
+    LEFT JOIN empsalary es ON e.id=es.eid
+    LEFT JOIN salary s ON es.sid=s.id
+    LEFT JOIN department d ON e.departmentId=d.id
+    <where>
+        <if test="argsRole!=null">
+            <if test="argsRole.eid !=null">
+                ar.eid =#{argsRole.eid}
+            </if>
+            <if test="argsRole.times !=null">
+                and ar.times =#{argsRole.times}
+            </if>
+            <if test="argsRole.others !=null">
+                and ar.others =#{argsRole.others}
+            </if>
+            <if test="argsRole.deduct !=null">
+                and ar.deduct =#{argsRole.deduct}
+            </if>
+            <if test="argsRole.recordPer !=null">
+                and ar.recordPer =#{argsRole.recordPer}
+            </if>
+            <if test="argsRole.count !=null">
+                and ar.count =#{argsRole.count}
+            </if>
+        </if>
+        <if test="sname !=null and sname!=''">
+            and sname like concat('%',#{sname},'%')
+        </if>
+    </where>
+    <if test="page !=null and size!=null">
+      limit #{page},#{size}
+    </if>
+  </select>
+  <select id="getTotal" resultType="java.lang.Long">
+    select count(*)
+    from employee e LEFT JOIN department d ON e.departmentId=d.id
+    LEFT JOIN empsalary es ON e.id=es.eid
+    LEFT JOIN salary s ON es.sid=s.id
+    LEFT JOIN args_role ar ON e.id=ar.eid
+    <where>
+      <if test="argsRole!=null">
+        <if test="argsRole.eid !=null">
+          and ar.eid =#{argsRole.eid}
+        </if>
+        <if test="argsRole.times !=null">
+          and ar.times =#{argsRole.times}
+        </if>
+        <if test="argsRole.others !=null">
+          and ar.others =#{argsRole.others}
+        </if>
+        <if test="argsRole.deduct !=null">
+          and ar.deduct =#{argsRole.deduct}
+        </if>
+        <if test="argsRole.recordPer !=null">
+          and ar.recordPer =#{argsRole.recordPer}
+        </if>
+        <if test="argsRole.count !=null">
+          and ar.count =#{argsRole.count}
+        </if>
+      </if>
+      <if test="sname !=null and sname!=''">
+        and s.name like concat('%',#{sname},'%')
+      </if>
+    </where>
+  </select>
+<!-- 查询所有该表信息 -->
+  <select id="SelectAllInfo" resultMap="BaseResultMap">
+    select * from args_role;
+  </select>
+<!-- 通过eid查询对应的信息 -->
+  <select id="selectByEidKey" resultMap="BaseResultMap">
+    select * from args_role where eid=#{eid,jdbcType=INTEGER};
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from args_role
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from args_role
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="org.servicify.mehrms.model.ArgsRole" >
+    insert into args_role (id, eid, times, 
+      others, deduct, recordPer, count
+      )
+    values (#{id,jdbcType=INTEGER}, #{eid,jdbcType=INTEGER}, #{times,jdbcType=REAL}, 
+      #{others,jdbcType=REAL}, #{deduct,jdbcType=REAL}, #{recordPer,jdbcType=REAL}, #{count,jdbcType=REAL}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="org.servicify.mehrms.model.ArgsRole" >
+    insert into args_role
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="eid != null" >
+        eid,
+      </if>
+      <if test="times != null" >
+        times,
+      </if>
+      <if test="others != null" >
+        others,
+      </if>
+      <if test="deduct != null" >
+        deduct,
+      </if>
+      <if test="recordPer != null" >
+        recordPer,
+      </if>
+      <if test="count != null" >
+        count,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="eid != null" >
+        #{eid,jdbcType=INTEGER},
+      </if>
+      <if test="times != null" >
+        #{times,jdbcType=REAL},
+      </if>
+      <if test="others != null" >
+        #{others,jdbcType=REAL},
+      </if>
+      <if test="deduct != null" >
+        #{deduct,jdbcType=REAL},
+      </if>
+      <if test="recordPer != null" >
+        #{recordPer,jdbcType=REAL},
+      </if>
+      <if test="count != null" >
+        #{count,jdbcType=REAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="org.servicify.mehrms.model.ArgsRole">
+    update args_role
+    <set >
+      <if test="eid != null" >
+        eid = #{eid,jdbcType=INTEGER},
+      </if>
+      <if test="times != null" >
+        times = #{times,jdbcType=REAL},
+      </if>
+      <if test="others != null" >
+        others = #{others,jdbcType=REAL},
+      </if>
+      <if test="deduct != null" >
+        deduct = #{deduct,jdbcType=REAL},
+      </if>
+      <if test="recordPer != null" >
+        recordPer = #{recordPer,jdbcType=REAL},
+      </if>
+      <if test="count != null" >
+        count = #{count,jdbcType=REAL},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="org.servicify.mehrms.model.ArgsRole" >
+    update args_role
+    set eid = #{eid,jdbcType=INTEGER},
+      times = #{times,jdbcType=REAL},
+      others = #{others,jdbcType=REAL},
+      deduct = #{deduct,jdbcType=REAL},
+      recordPer = #{recordPer,jdbcType=REAL},
+      count = #{count,jdbcType=REAL}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <!--
+    /**
+      * Created by Servicify
+      * Date 2021/6/7
+      * Time 9:08
+    **/
+-->
+</mapper>

@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.servicify.mehrms.mapper.EmpBeforeRemoveMapper" >
+  <resultMap id="BaseResultMap" type="org.servicify.mehrms.model.EmpBeforeRemove" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="empremoveId" property="empremoveId" jdbcType="INTEGER" />
+    <result column="beforeDepName" property="beforeDepName" jdbcType="VARCHAR" />
+    <result column="beforePositionName" property="beforePositionName" jdbcType="VARCHAR" />
+    <result column="beforeJobLevelName" property="beforeJobLevelName" jdbcType="VARCHAR" />
+    <result column="beforeJobLevelTitleName" property="beforeJobLevelTitleName" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, empremoveId, beforeDepName, beforePositionName, beforeJobLevelName, beforeJobLevelTitleName
+  </sql>
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from empbeforeremove
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from empbeforeremove
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="org.servicify.mehrms.model.EmpBeforeRemove" >
+    insert into empbeforeremove (id, empremoveId, beforeDepName, 
+      beforePositionName, beforeJobLevelName, 
+      beforeJobLevelTitleName)
+    values (#{id,jdbcType=INTEGER}, #{empremoveId,jdbcType=INTEGER}, #{beforeDepName,jdbcType=VARCHAR}, 
+      #{beforePositionName,jdbcType=VARCHAR}, #{beforeJobLevelName,jdbcType=VARCHAR}, 
+      #{beforeJobLevelTitleName,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="org.servicify.mehrms.model.EmpBeforeRemove" >
+    insert into empbeforeremove
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="empremoveId != null" >
+        empremoveId,
+      </if>
+      <if test="beforeDepName != null" >
+        beforeDepName,
+      </if>
+      <if test="beforePositionName != null" >
+        beforePositionName,
+      </if>
+      <if test="beforeJobLevelName != null" >
+        beforeJobLevelName,
+      </if>
+      <if test="beforeJobLevelTitleName != null" >
+        beforeJobLevelTitleName,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="empremoveId != null" >
+        #{empremoveId,jdbcType=INTEGER},
+      </if>
+      <if test="beforeDepName != null" >
+        #{beforeDepName,jdbcType=VARCHAR},
+      </if>
+      <if test="beforePositionName != null" >
+        #{beforePositionName,jdbcType=VARCHAR},
+      </if>
+      <if test="beforeJobLevelName != null" >
+        #{beforeJobLevelName,jdbcType=VARCHAR},
+      </if>
+      <if test="beforeJobLevelTitleName != null" >
+        #{beforeJobLevelTitleName,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="org.servicify.mehrms.model.EmpBeforeRemove" >
+    update empbeforeremove
+    <set >
+      <if test="empremoveId != null" >
+        empremoveId = #{empremoveId,jdbcType=INTEGER},
+      </if>
+      <if test="beforeDepName != null" >
+        beforeDepName = #{beforeDepName,jdbcType=VARCHAR},
+      </if>
+      <if test="beforePositionName != null" >
+        beforePositionName = #{beforePositionName,jdbcType=VARCHAR},
+      </if>
+      <if test="beforeJobLevelName != null" >
+        beforeJobLevelName = #{beforeJobLevelName,jdbcType=VARCHAR},
+      </if>
+      <if test="beforeJobLevelTitleName != null" >
+        beforeJobLevelTitleName = #{beforeJobLevelTitleName,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="org.servicify.mehrms.model.EmpBeforeRemove" >
+    update empbeforeremove
+    set empremoveId = #{empremoveId,jdbcType=INTEGER},
+      beforeDepName = #{beforeDepName,jdbcType=VARCHAR},
+      beforePositionName = #{beforePositionName,jdbcType=VARCHAR},
+      beforeJobLevelName = #{beforeJobLevelName,jdbcType=VARCHAR},
+      beforeJobLevelTitleName = #{beforeJobLevelTitleName,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <!--
+    /**
+      * Created by Servicify
+      * Date 2021/6/7
+      * Time 9:08
+    **/
+-->
+</mapper>

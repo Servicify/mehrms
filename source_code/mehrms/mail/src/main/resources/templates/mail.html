@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>**公司<em th:text="${enterdate}"></em>聘用通知</title>
+</head>
+<body style="margin:0px;padding:0px;font-family: STXingkai;font-size: 24px;background-color: #fcffcc;color: #8f8f8f">
+<div style="margin:0px;padding:0px;font-family: STXingkai;font-size: 24px;background-color: #fcffcc;color: #8f8f8f">
+<div style="margin:0px 0px 0px 45px;padding:0px;font-size: 24px;font-family: STXingkai;background-color: #fcffcc;color: #8f8f8f">
+    尊敬的<em th:text="${name}"></em><span th:text="${gender}"></span>:
+</div>
+<div style="margin:0px 0px 0px 0px;padding:0px;font-family: STXingkai;font-size: 24px;background-color: #fcffcc;color: #8f8f8f">
+    &nbsp;&nbsp;&nbsp;&nbsp;恭喜您被本公司录用，您的基本入职信息如下：</div>
+<br/>
+<table border="0" style="width:400px;height:400px;margin:0px 0px 0px 120px;padding:0px;font-family: STXingkai;font-size: 24px;background-color: #fcffcc;color: #8f8f8f">
+    <tr >
+        <td style="font-family: STXingkai;font-size: 24px;background-color: #fcffcc;color: #8f8f8f">姓名:</td>
+        <td th:text="${name}" style="font-family: STXingkai;font-size: 24px;background-color: #fcffcc;color: #8f8f8f"></td>
+    </tr>
+    <tr>
+        <td style="font-family: STXingkai;font-size: 24px;background-color: #fcffcc;color: #8f8f8f">职位:</td>
+        <td th:text="${positionName}" style="font-family: STXingkai;font-size: 24px;background-color: #fcffcc;color: #8f8f8f"></td>
+    </tr>
+    <tr>
+        <td style="font-family: STXingkai;font-size: 24px;background-color: #fcffcc;color: #8f8f8f">职称:</td>
+        <td th:text="${joblevelName}" style="font-family: STXingkai;font-size: 24px;background-color: #fcffcc;color: #8f8f8f"></td>
+    </tr>
+    <tr>
+        <td style="font-family: STXingkai;font-size: 24px;background-color: #fcffcc;color: #8f8f8f">部门:</td>
+        <td th:text="${departmentName}" style="font-family: STXingkai;font-size: 24px;background-color: #fcffcc;color: #8f8f8f"></td>
+    </tr>
+</table>
+<br/>
+    <div style="margin:0px;padding:0px;font-family: STXingkai;font-size: 24px;background-color: #fcffcc;color: #8f8f8f">&nbsp;&nbsp;&nbsp;&nbsp;
+        希望在未来的日子里,本公司能与您精诚合作,共创新辉煌!
+    </div>
+<br/>
+    <div style="margin:0px;padding:0px;font-family: STXingkai;font-size: 24px;background-color: #fcffcc;color: #8f8f8f">
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        &nbsp;&nbsp;----**公司人力资源管理部门HR
+    </div>
+<br/>
+    <div style="margin:0px;padding:0px;font-family: STXingkai;font-size: 24px;background-color: #fcffcc;color: #8f8f8f">
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Servicify
+    </div>
+</div>
+</body>
+</html>
+<!--<script>-->
+<!--    var d1 = document.getElementById("d1");-->
+<!--    //alert($(document).width()/2);-->
+<!--    var kuan=window.innerWidth/2;-->
+<!--    d1.height=window.innerWidth;-->
+<!--    d1.width=kuan*2;-->
+<!--    var drawtree = function (ctx, startx, starty, length, angle, depth, branchWidth) {-->
+<!--        var rand = Math.random,-->
+<!--            n_length, n_angle, n_depth, maxbranch = 4,-->
+<!--            endx, endy, maxangle = 2 * Math.PI / 4;-->
+<!--        var subbranch;-->
+<!--        ctx.beginPath();-->
+<!--        ctx.moveTo(startx, starty);-->
+<!--        endx = startx + length * Math.cos(angle);-->
+<!--        endy = starty + length * Math.sin(angle);-->
+<!--        ctx.lineCap = 'round';-->
+<!--        ctx.lineWidth = branchWidth;-->
+<!--        ctx.lineTo(endx, endy);-->
+<!--        if (depth <=35) {-->
+<!--            //树的枝干-->
+<!--            ctx.strokeStyle = '#228B22';-->
+<!--        }-->
+<!--        else {-->
+<!--            //树的叶子-->
+<!--            ctx.strokeStyle = '#8B5744';-->
+<!--        }-->
+<!--        ctx.stroke();-->
+<!--        n_depth = depth - 1;-->
+<!--        //判断树是否结束-->
+<!--        if (!n_depth) {-->
+<!--            return;-->
+<!--        }-->
+<!--        subbranch = (rand() * (maxbranch - 1)) + 1;-->
+<!--        branchWidth *= 0.5;-->
+<!--        for (var i = 0; i < subbranch; i++) {-->
+<!--            n_angle = angle + rand() * maxangle - maxangle * 0.5;-->
+<!--            n_length = length * (0.7 + rand() * 0.5);-->
+<!--            setTimeout(function () {-->
+<!--                drawtree(ctx, endx, endy, n_length, n_angle, n_depth, branchWidth);-->
+<!--                return;-->
+<!--            },500)-->
+<!--        }-->
+<!--    };-->
+
+<!--    var canvas1 = document.getElementById('d1');-->
+<!--    var context = canvas1.getContext('2d');-->
+<!--    //初始化的树-->
+<!--    drawtree(context, kuan, 1100,200, -Math.PI / 2, 36, 24);-->
+<!--    //context.fill();-->
+<!--    //document.getElementById('YST').style.backgroundImage = 'url("' + context.canvas.toDataURL() + '")';-->
+
+<!--</script>-->

@@ -1,0 +1,251 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.servicify.mehrms.mapper.EmployeeremoveMapper" >
+  <resultMap id="BaseResultMap" type="org.servicify.mehrms.model.Employeeremove" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="eid" property="eid" jdbcType="INTEGER" />
+    <result column="afterDepId" property="afterDepId" jdbcType="INTEGER" />
+    <result column="afterJobLevelId" property="afterJobLevelId" jdbcType="INTEGER" />
+    <result column="afterPositionId" property="afterPositionId" jdbcType="INTEGER" />
+    <result column="removeDate" property="removeDate" jdbcType="DATE" />
+    <result column="reason" property="reason" jdbcType="VARCHAR" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="getAllEmpsInfo" type="org.servicify.mehrms.model.Employeeremove" extends="BaseResultMap">
+    <association property="employee" javaType="org.servicify.mehrms.model.Employee">
+      <id column="eid" property="id" jdbcType="INTEGER"/>
+      <result column="ename" property="name" jdbcType="VARCHAR"/>
+    </association>
+    <association property="department" javaType="org.servicify.mehrms.model.Department">
+      <id column="did" property="id" jdbcType="INTEGER"/>
+      <result column="dname" property="name" jdbcType="VARCHAR"/>
+    </association>
+    <association property="jobLevel" javaType="org.servicify.mehrms.model.JobLevel">
+      <id column="jid" property="id" jdbcType="INTEGER"/>
+      <result column="jname" property="name" jdbcType="VARCHAR"/>
+      <result column="titleLevel" property="titleLevel" />
+    </association>
+    <association property="position" javaType="org.servicify.mehrms.model.Position">
+      <id column="pid" property="id" jdbcType="INTEGER"/>
+      <result column="pname" property="name" jdbcType="VARCHAR"/>
+    </association>
+    <association property="empBeforeRemove" javaType="org.servicify.mehrms.model.EmpBeforeRemove">
+      <id column="id" property="id" jdbcType="INTEGER" />
+      <result column="empremoveId" property="empremoveId" jdbcType="INTEGER" />
+      <result column="beforeDepName" property="beforeDepName" jdbcType="VARCHAR" />
+      <result column="beforePositionName" property="beforePositionName" jdbcType="VARCHAR" />
+      <result column="beforeJobLevelName" property="beforeJobLevelName" jdbcType="VARCHAR" />
+      <result column="beforeJobLevelTitleName" property="beforeJobLevelTitleName" jdbcType="VARCHAR" />
+    </association>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, eid, afterDepId, afterJobLevelId, afterPositionId, removeDate, reason, remark
+  </sql>
+  <!--  调岗记录页面查询信息（条件）-->
+  <select id="getAllRecordsInfo" resultMap="getAllEmpsInfo">
+    select empr.*,e.name as ename,d.name as dname,j.name as jname,j.titleLevel,p.name as pname,
+    empbefore.beforeDepName,empbefore.beforePositionName,empbefore.beforeJobLevelName,empbefore.beforeJobLevelTitleName
+    from employeeremove empr
+    LEFT JOIN employee e ON empr.`eid`=e.`id`
+    LEFT JOIN department d ON empr.`afterDepId`=d.`id`
+    LEFT JOIN jobLevel j ON empr.`afterJobLevelId`=j.`id`
+    LEFT JOIN position p ON empr.`afterPositionId`=p.`id`
+    LEFT JOIN empbeforeremove empbefore ON empr.`id`=empbefore.`empremoveId`
+    <where>
+      <if test="employeeremove!=null">
+        <if test="employeeremove.reason !=null and employeeremove.reason!=''">
+          and empr.reason like concat('%',#{employeeremove.reason},'%')
+        </if>
+        <if test="employeeremove.remark !=null and employeeremove.remark!=''">
+          and empr.remark like concat('%',#{employeeremove.remark},'%')
+        </if>
+        <if test="employeeremove.afterDepId !=null">
+          and empr.afterDepId =#{employeeremove.afterDepId}
+        </if>
+        <if test="employeeremove.afterJobLevelId !=null">
+          and empr.afterJobLevelId =#{employeeremove.afterJobLevelId}
+        </if>
+        <if test="employeeremove.afterPositionId !=null">
+          and empr.afterPositionId =#{employeeremove.afterPositionId}
+        </if>
+        <if test="employeeremove.eid !=null">
+          and empr.eid =#{employeeremove.eid}
+        </if>
+        <if test="beginDateScope !=null">
+          and empr.removeDate between #{beginDateScope[0]} and #{beginDateScope[1]}
+        </if>
+      </if>
+    </where>
+    order by empr.`removeDate` DESC
+    <if test="page !=null and size!=null">
+      limit #{page},#{size}
+    </if>
+  </select>
+  <select id="getAllRecordsInfosTotal" resultType="java.lang.Long">
+    select count(*)
+    from employeeremove empr
+    LEFT JOIN employee e ON empr.`eid`=e.`id`
+    LEFT JOIN department d ON empr.`afterDepId`=d.`id`
+    LEFT JOIN jobLevel j ON empr.`afterJobLevelId`=j.`id`
+    LEFT JOIN position p ON empr.`afterPositionId`=p.`id`
+    LEFT JOIN empbeforeremove empbefore ON empbefore.`empremoveId`=empr.`id`
+    <where>
+      <if test="employeeremove!=null">
+        <if test="employeeremove.reason !=null and employeeremove.reason!=''">
+          and empr.reason like concat('%',#{employeeremove.reason},'%')
+        </if>
+        <if test="employeeremove.remark !=null and employeeremove.remark!=''">
+          and empr.remark like concat('%',#{employeeremove.remark},'%')
+        </if>
+        <if test="employeeremove.afterDepId !=null">
+          and empr.afterDepId =#{employeeremove.afterDepId}
+        </if>
+        <if test="employeeremove.afterJobLevelId !=null">
+          and empr.afterJobLevelId =#{employeeremove.afterJobLevelId}
+        </if>
+        <if test="employeeremove.afterPositionId !=null">
+          and empr.afterPositionId =#{employeeremove.afterPositionId}
+        </if>
+        <if test="employeeremove.eid !=null">
+          and empr.eid =#{employeeremove.eid}
+        </if>
+        <if test="beginDateScope !=null">
+          and empr.removeDate between #{beginDateScope[0]} and #{beginDateScope[1]}
+        </if>
+      </if>
+    </where>
+  </select>
+
+  <select id="getAllRemoveInfosByMonths" resultMap="getAllEmpsInfo">
+    select empr.*,e.name as ename,d.name as dname,j.name as jname,j.titleLevel,p.name as pname,
+    empbefore.beforeDepName,empbefore.beforePositionName,empbefore.beforeJobLevelName,empbefore.beforeJobLevelTitleName
+    from employeeremove empr
+    LEFT JOIN employee e ON empr.`eid`=e.`id`
+    LEFT JOIN department d ON empr.`afterDepId`=d.`id`
+    LEFT JOIN jobLevel j ON empr.`afterJobLevelId`=j.`id`
+    LEFT JOIN position p ON empr.`afterPositionId`=p.`id`
+    LEFT JOIN empbeforeremove empbefore ON empr.`id`=empbefore.`empremoveId`
+    where
+        empr.removeDate between #{startDate} and #{endDate}
+  </select>
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select
+    <include refid="Base_Column_List" />
+    from employeeremove
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from employeeremove
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="org.servicify.mehrms.model.Employeeremove" >
+    insert into employeeremove (id, eid, afterDepId,
+      afterJobLevelId, afterPositionId, removeDate,
+      reason, remark)
+    values (#{id,jdbcType=INTEGER}, #{eid,jdbcType=INTEGER}, #{afterDepId,jdbcType=INTEGER},
+      #{afterJobLevelId,jdbcType=INTEGER}, #{afterPositionId,jdbcType=INTEGER}, #{removeDate,jdbcType=DATE},
+      #{reason,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="org.servicify.mehrms.model.Employeeremove" useGeneratedKeys="true"
+          keyProperty="id">
+    insert into employeeremove
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="eid != null" >
+        eid,
+      </if>
+      <if test="afterDepId != null" >
+        afterDepId,
+      </if>
+      <if test="afterJobLevelId != null" >
+        afterJobLevelId,
+      </if>
+      <if test="afterPositionId != null" >
+        afterPositionId,
+      </if>
+      <if test="removeDate != null" >
+        removeDate,
+      </if>
+      <if test="reason != null" >
+        reason,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="eid != null" >
+        #{eid,jdbcType=INTEGER},
+      </if>
+      <if test="afterDepId != null" >
+        #{afterDepId,jdbcType=INTEGER},
+      </if>
+      <if test="afterJobLevelId != null" >
+        #{afterJobLevelId,jdbcType=INTEGER},
+      </if>
+      <if test="afterPositionId != null" >
+        #{afterPositionId,jdbcType=INTEGER},
+      </if>
+      <if test="removeDate != null" >
+        #{removeDate,jdbcType=DATE},
+      </if>
+      <if test="reason != null" >
+        #{reason,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="org.servicify.mehrms.model.Employeeremove" >
+    update employeeremove
+    <set >
+      <if test="eid != null" >
+        eid = #{eid,jdbcType=INTEGER},
+      </if>
+      <if test="afterDepId != null" >
+        afterDepId = #{afterDepId,jdbcType=INTEGER},
+      </if>
+      <if test="afterJobLevelId != null" >
+        afterJobLevelId = #{afterJobLevelId,jdbcType=INTEGER},
+      </if>
+      <if test="afterPositionId != null" >
+        afterPositionId = #{afterPositionId,jdbcType=INTEGER},
+      </if>
+      <if test="removeDate != null" >
+        removeDate = #{removeDate,jdbcType=DATE},
+      </if>
+      <if test="reason != null" >
+        reason = #{reason,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="org.servicify.mehrms.model.Employeeremove" >
+    update employeeremove
+    set eid = #{eid,jdbcType=INTEGER},
+      afterDepId = #{afterDepId,jdbcType=INTEGER},
+      afterJobLevelId = #{afterJobLevelId,jdbcType=INTEGER},
+      afterPositionId = #{afterPositionId,jdbcType=INTEGER},
+      removeDate = #{removeDate,jdbcType=DATE},
+      reason = #{reason,jdbcType=VARCHAR},
+      remark = #{remark,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <!--
+    /**
+      * Created by Servicify
+      * Date 2021/6/7
+      * Time 9:08
+    **/
+-->
+</mapper>

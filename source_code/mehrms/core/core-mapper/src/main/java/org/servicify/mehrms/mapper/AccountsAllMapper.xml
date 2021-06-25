@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.servicify.mehrms.mapper.AccountsAllMapper" >
+  <resultMap id="BaseResultMap" type="org.servicify.mehrms.model.AccountsAll" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="startDate" property="startDate" jdbcType="DATE" />
+    <result column="endDate" property="endDate" jdbcType="DATE" />
+    <result column="allCount" property="allCount" jdbcType="REAL" />
+    <result column="allRealSalary" property="allRealSalary" jdbcType="REAL" />
+    <result column="allCreditEmp" property="allCreditEmp" jdbcType="REAL" />
+    <result column="allCreditCom" property="allCreditCom" jdbcType="REAL" />
+    <result column="avgRecordBonus" property="avgRecordBonus" jdbcType="REAL" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, startDate, endDate, allCount, allRealSalary, allCreditEmp, allCreditCom, avgRecordBonus
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from accountsall
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <!--  直接获取所有的accountsall记录-->
+  <select id="getAllAccountsAllInfo" resultMap="BaseResultMap" >
+    select
+    <include refid="Base_Column_List" />
+    from accountsall;
+  </select>
+  <!-- 检查是否存在对应日期范围内的记录，并且避免出现处于查询到的单条统计记录之间的漏洞 -->
+  <select id="getAccountsAllInfoByBeginDate" resultMap="BaseResultMap" >
+    select *
+    from accountsall
+    where (startDate = #{beginDateScope[0]} and endDate = #{beginDateScope[1]})
+    or (startDate between #{beginDateScope[0]} and #{beginDateScope[1]})
+    or (endDate between #{beginDateScope[0]} and #{beginDateScope[1]});
+  </select>
+<!--  查询对应月份的记录-->
+  <select id="getAccountsInfoByDate" resultMap="BaseResultMap" >
+    select
+    <include refid="Base_Column_List" />
+    from accountsall
+    where startDate = #{startDate} and endDate = #{endDate};
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from accountsall
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="org.servicify.mehrms.model.AccountsAll" >
+    insert into accountsall (id, startDate, endDate, 
+      allCount, allRealSalary, allCreditEmp, 
+      allCreditCom, avgRecordBonus)
+    values (#{id,jdbcType=INTEGER}, #{startDate,jdbcType=DATE}, #{endDate,jdbcType=DATE}, 
+      #{allCount,jdbcType=REAL}, #{allRealSalary,jdbcType=REAL}, #{allCreditEmp,jdbcType=REAL}, 
+      #{allCreditCom,jdbcType=REAL}, #{avgRecordBonus,jdbcType=REAL})
+  </insert>
+  <insert id="insertSelective" parameterType="org.servicify.mehrms.model.AccountsAll" useGeneratedKeys="true"
+          keyProperty="id">
+    insert into accountsall
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="startDate != null" >
+        startDate,
+      </if>
+      <if test="endDate != null" >
+        endDate,
+      </if>
+      <if test="allCount != null" >
+        allCount,
+      </if>
+      <if test="allRealSalary != null" >
+        allRealSalary,
+      </if>
+      <if test="allCreditEmp != null" >
+        allCreditEmp,
+      </if>
+      <if test="allCreditCom != null" >
+        allCreditCom,
+      </if>
+      <if test="avgRecordBonus != null" >
+        avgRecordBonus,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="startDate != null" >
+        #{startDate,jdbcType=DATE},
+      </if>
+      <if test="endDate != null" >
+        #{endDate,jdbcType=DATE},
+      </if>
+      <if test="allCount != null" >
+        #{allCount,jdbcType=REAL},
+      </if>
+      <if test="allRealSalary != null" >
+        #{allRealSalary,jdbcType=REAL},
+      </if>
+      <if test="allCreditEmp != null" >
+        #{allCreditEmp,jdbcType=REAL},
+      </if>
+      <if test="allCreditCom != null" >
+        #{allCreditCom,jdbcType=REAL},
+      </if>
+      <if test="avgRecordBonus != null" >
+        #{avgRecordBonus,jdbcType=REAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="org.servicify.mehrms.model.AccountsAll" >
+    update accountsall
+    <set >
+      <if test="startDate != null" >
+        startDate = #{startDate,jdbcType=DATE},
+      </if>
+      <if test="endDate != null" >
+        endDate = #{endDate,jdbcType=DATE},
+      </if>
+      <if test="allCount != null" >
+        allCount = #{allCount,jdbcType=REAL},
+      </if>
+      <if test="allRealSalary != null" >
+        allRealSalary = #{allRealSalary,jdbcType=REAL},
+      </if>
+      <if test="allCreditEmp != null" >
+        allCreditEmp = #{allCreditEmp,jdbcType=REAL},
+      </if>
+      <if test="allCreditCom != null" >
+        allCreditCom = #{allCreditCom,jdbcType=REAL},
+      </if>
+      <if test="avgRecordBonus != null" >
+        avgRecordBonus = #{avgRecordBonus,jdbcType=REAL},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="org.servicify.mehrms.model.AccountsAll" >
+    update accountsall
+    set startDate = #{startDate,jdbcType=DATE},
+      endDate = #{endDate,jdbcType=DATE},
+      allCount = #{allCount,jdbcType=REAL},
+      allRealSalary = #{allRealSalary,jdbcType=REAL},
+      allCreditEmp = #{allCreditEmp,jdbcType=REAL},
+      allCreditCom = #{allCreditCom,jdbcType=REAL},
+      avgRecordBonus = #{avgRecordBonus,jdbcType=REAL}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <!--
+    /**
+      * Created by Servicify
+      * Date 2021/6/7
+      * Time 9:08
+    **/
+-->
+</mapper>

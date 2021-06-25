@@ -1,0 +1,411 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.servicify.mehrms.mapper.ArgsRoleRecordsMapper" >
+  <resultMap id="BaseResultMap" type="org.servicify.mehrms.model.ArgsRoleRecords" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="createDate" property="createDate" jdbcType="DATE" />
+    <result column="eid" property="eid" jdbcType="INTEGER" />
+    <result column="did" property="did" jdbcType="INTEGER" />
+    <result column="basicSalary" property="basicSalary" jdbcType="INTEGER" />
+    <result column="bonus" property="bonus" jdbcType="INTEGER" />
+    <result column="lunchSalary" property="lunchSalary" jdbcType="INTEGER" />
+    <result column="trafficSalary" property="trafficSalary" jdbcType="INTEGER" />
+    <result column="pensionBase" property="pensionBase" jdbcType="INTEGER" />
+    <result column="pensionPer" property="pensionPer" jdbcType="REAL" />
+    <result column="medicalBase" property="medicalBase" jdbcType="INTEGER" />
+    <result column="medicalPer" property="medicalPer" jdbcType="REAL" />
+    <result column="accumulationFundBase" property="accumulationFundBase" jdbcType="INTEGER" />
+    <result column="accumulationFundPer" property="accumulationFundPer" jdbcType="REAL" />
+    <result column="sname" property="sname" jdbcType="VARCHAR" />
+    <result column="allSalary" property="allSalary" jdbcType="REAL" />
+    <result column="afterTimes" property="afterTimes" jdbcType="REAL" />
+    <result column="afterOthers" property="afterOthers" jdbcType="REAL" />
+    <result column="afterDeduct" property="afterDeduct" jdbcType="REAL" />
+    <result column="afterPer" property="afterPer" jdbcType="REAL" />
+    <result column="afterCount" property="afterCount" jdbcType="REAL" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+  </resultMap>
+    <resultMap id="AllInfo" type="org.servicify.mehrms.model.ArgsRoleRecords" extends="BaseResultMap">
+    <association property="employee" javaType="org.servicify.mehrms.model.Employee">
+      <id column="eid" property="id" jdbcType="INTEGER"/>
+      <result column="ename" property="name" jdbcType="VARCHAR"/>
+      <result column="workID" property="workID" jdbcType="VARCHAR"/>
+      <result column="departmentId" property="departmentId" jdbcType="INTEGER"/>
+    </association>
+    <association property="department" javaType="org.servicify.mehrms.model.Department">
+      <id column="did" property="id" jdbcType="INTEGER"/>
+      <result column="dname" property="name" jdbcType="VARCHAR"/>
+    </association>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, createDate, eid, did, basicSalary, bonus, lunchSalary, trafficSalary, pensionBase,
+    pensionPer, medicalBase, medicalPer, accumulationFundBase, accumulationFundPer, sname,
+    allSalary, afterTimes, afterOthers, afterDeduct, afterPer, afterCount
+  </sql>
+<!--  精准分页查询-->
+<!--  arr.id >0该条件是为了保证条件能够正常的组合避免and多余-->
+  <select id="getPerSalaryAllRecordInfo" resultMap="AllInfo">
+    select
+    arr.id,arr.eid,arr.createDate,arr.did,arr.sname,
+    arr.basicSalary, arr.bonus, arr.lunchSalary, arr.trafficSalary,
+    arr.pensionBase,arr.pensionPer, arr.medicalBase, arr.medicalPer,
+    arr.accumulationFundBase, arr.accumulationFundPer,
+    arr.allSalary,arr.afterTimes,arr.afterOthers,
+    arr.afterDeduct,arr.afterPer,arr.afterCount,arr.remark,
+    d.name as dname,e.name as ename,e.workID
+    from args_role_records as arr LEFT JOIN employee e on arr.eid=e.id
+    LEFT JOIN department d on arr.did=d.id
+    <where>
+      <if test="arr!=null">
+        <if test="arr.eid !=null">
+          arr.eid =#{arr.eid}
+        </if>
+        <if test="arr.did !=null">
+          and arr.did =#{arr.did}
+        </if>
+        <if test="arr.allSalary !=null">
+          and arr.allSalary =#{arr.allSalary}
+        </if>
+        <if test="arr.afterTimes !=null">
+          and arr.afterTimes =#{arr.afterTimes}
+        </if>
+        <if test="arr.afterOthers !=null">
+          and arr.afterOthers =#{arr.afterOthers}
+        </if>
+        <if test="arr.afterDeduct !=null">
+          and arr.afterDeduct =#{arr.afterDeduct}
+        </if>
+        <if test="arr.afterPer !=null">
+          and arr.afterPer =#{arr.afterPer}
+        </if>
+        <if test="arr.afterCount !=null">
+          and arr.afterCount =#{arr.afterCount}
+        </if>
+        <if test="arr.remark !=null and arr.remark!=''">
+          and arr.remark like concat('%',#{arr.remark},'%')
+        </if>
+        <if test="arr.sname !=null and arr.sname!=''">
+          and arr.sname like concat('%',#{arr.sname},'%')
+        </if>
+      </if>
+      <if test="beginDateScope !=null">
+        and arr.createDate between #{beginDateScope[0]} and #{beginDateScope[1]}
+      </if>
+    </where>
+    order by arr.id desc
+    <if test="page !=null and size!=null">
+      limit #{page},#{size}
+    </if>
+  </select>
+  <select id="getTotal" resultType="java.lang.Long">
+    select count(*)
+    from args_role_records as arr LEFT JOIN employee e on arr.eid=e.id
+    LEFT JOIN department d on arr.did=d.id
+    <where>
+      <if test="arr!=null">
+        <if test="arr.eid !=null">
+          arr.eid =#{arr.eid}
+        </if>
+        <if test="arr.did !=null">
+          and arr.did =#{arr.did}
+        </if>
+        <if test="arr.allSalary !=null">
+          and arr.allSalary =#{arr.allSalary}
+        </if>
+        <if test="arr.afterTimes !=null">
+          and arr.afterTimes =#{arr.afterTimes}
+        </if>
+        <if test="arr.afterOthers !=null">
+          and arr.afterOthers =#{arr.afterOthers}
+        </if>
+        <if test="arr.afterDeduct !=null">
+          and arr.afterDeduct =#{arr.afterDeduct}
+        </if>
+        <if test="arr.afterPer !=null">
+          and arr.afterPer =#{arr.afterPer}
+        </if>
+        <if test="arr.afterCount !=null">
+          and arr.afterCount =#{arr.afterCount}
+        </if>
+        <if test="arr.remark !=null and arr.remark!=''">
+          and arr.remark like concat('%',#{arr.remark},'%')
+        </if>
+        <if test="arr.sname !=null and arr.sname!=''">
+          and arr.sname like concat('%',#{arr.sname},'%')
+        </if>
+      </if>
+      <if test="beginDateScope !=null">
+        and arr.createDate between #{beginDateScope[0]} and #{beginDateScope[1]}
+      </if>
+    </where>
+  </select>
+<!--  -->
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from args_role_records
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from args_role_records
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="org.servicify.mehrms.model.ArgsRoleRecords" >
+    insert into args_role_records (id, createDate, eid, 
+      did, basicSalary, bonus, 
+      lunchSalary, trafficSalary, pensionBase, 
+      pensionPer, medicalBase, medicalPer, 
+      accumulationFundBase, accumulationFundPer, 
+      sname, allSalary, afterTimes, 
+      afterOthers, afterDeduct, afterPer, 
+      afterCount, remark)
+    values (#{id,jdbcType=INTEGER}, #{createDate,jdbcType=DATE}, #{eid,jdbcType=INTEGER}, 
+      #{did,jdbcType=INTEGER}, #{basicSalary,jdbcType=INTEGER}, #{bonus,jdbcType=INTEGER}, 
+      #{lunchSalary,jdbcType=INTEGER}, #{trafficSalary,jdbcType=INTEGER}, #{pensionBase,jdbcType=INTEGER}, 
+      #{pensionPer,jdbcType=REAL}, #{medicalBase,jdbcType=INTEGER}, #{medicalPer,jdbcType=REAL}, 
+      #{accumulationFundBase,jdbcType=INTEGER}, #{accumulationFundPer,jdbcType=REAL}, 
+      #{sname,jdbcType=VARCHAR}, #{allSalary,jdbcType=REAL}, #{afterTimes,jdbcType=REAL}, 
+      #{afterOthers,jdbcType=REAL}, #{afterDeduct,jdbcType=REAL}, #{afterPer,jdbcType=REAL}, 
+      #{afterCount,jdbcType=REAL}, #{remark,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="org.servicify.mehrms.model.ArgsRoleRecords" >
+    insert into args_role_records
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="createDate != null" >
+        createDate,
+      </if>
+      <if test="eid != null" >
+        eid,
+      </if>
+      <if test="did != null" >
+        did,
+      </if>
+      <if test="basicSalary != null" >
+        basicSalary,
+      </if>
+      <if test="bonus != null" >
+        bonus,
+      </if>
+      <if test="lunchSalary != null" >
+        lunchSalary,
+      </if>
+      <if test="trafficSalary != null" >
+        trafficSalary,
+      </if>
+      <if test="pensionBase != null" >
+        pensionBase,
+      </if>
+      <if test="pensionPer != null" >
+        pensionPer,
+      </if>
+      <if test="medicalBase != null" >
+        medicalBase,
+      </if>
+      <if test="medicalPer != null" >
+        medicalPer,
+      </if>
+      <if test="accumulationFundBase != null" >
+        accumulationFundBase,
+      </if>
+      <if test="accumulationFundPer != null" >
+        accumulationFundPer,
+      </if>
+      <if test="sname != null" >
+        sname,
+      </if>
+      <if test="allSalary != null" >
+        allSalary,
+      </if>
+      <if test="afterTimes != null" >
+        afterTimes,
+      </if>
+      <if test="afterOthers != null" >
+        afterOthers,
+      </if>
+      <if test="afterDeduct != null" >
+        afterDeduct,
+      </if>
+      <if test="afterPer != null" >
+        afterPer,
+      </if>
+      <if test="afterCount != null" >
+        afterCount,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="createDate != null" >
+        #{createDate,jdbcType=DATE},
+      </if>
+      <if test="eid != null" >
+        #{eid,jdbcType=INTEGER},
+      </if>
+      <if test="did != null" >
+        #{did,jdbcType=INTEGER},
+      </if>
+      <if test="basicSalary != null" >
+        #{basicSalary,jdbcType=INTEGER},
+      </if>
+      <if test="bonus != null" >
+        #{bonus,jdbcType=INTEGER},
+      </if>
+      <if test="lunchSalary != null" >
+        #{lunchSalary,jdbcType=INTEGER},
+      </if>
+      <if test="trafficSalary != null" >
+        #{trafficSalary,jdbcType=INTEGER},
+      </if>
+      <if test="pensionBase != null" >
+        #{pensionBase,jdbcType=INTEGER},
+      </if>
+      <if test="pensionPer != null" >
+        #{pensionPer,jdbcType=REAL},
+      </if>
+      <if test="medicalBase != null" >
+        #{medicalBase,jdbcType=INTEGER},
+      </if>
+      <if test="medicalPer != null" >
+        #{medicalPer,jdbcType=REAL},
+      </if>
+      <if test="accumulationFundBase != null" >
+        #{accumulationFundBase,jdbcType=INTEGER},
+      </if>
+      <if test="accumulationFundPer != null" >
+        #{accumulationFundPer,jdbcType=REAL},
+      </if>
+      <if test="sname != null" >
+        #{sname,jdbcType=VARCHAR},
+      </if>
+      <if test="allSalary != null" >
+        #{allSalary,jdbcType=REAL},
+      </if>
+      <if test="afterTimes != null" >
+        #{afterTimes,jdbcType=REAL},
+      </if>
+      <if test="afterOthers != null" >
+        #{afterOthers,jdbcType=REAL},
+      </if>
+      <if test="afterDeduct != null" >
+        #{afterDeduct,jdbcType=REAL},
+      </if>
+      <if test="afterPer != null" >
+        #{afterPer,jdbcType=REAL},
+      </if>
+      <if test="afterCount != null" >
+        #{afterCount,jdbcType=REAL},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="org.servicify.mehrms.model.ArgsRoleRecords" >
+    update args_role_records
+    <set >
+      <if test="createDate != null" >
+        createDate = #{createDate,jdbcType=DATE},
+      </if>
+      <if test="eid != null" >
+        eid = #{eid,jdbcType=INTEGER},
+      </if>
+      <if test="did != null" >
+        did = #{did,jdbcType=INTEGER},
+      </if>
+      <if test="basicSalary != null" >
+        basicSalary = #{basicSalary,jdbcType=INTEGER},
+      </if>
+      <if test="bonus != null" >
+        bonus = #{bonus,jdbcType=INTEGER},
+      </if>
+      <if test="lunchSalary != null" >
+        lunchSalary = #{lunchSalary,jdbcType=INTEGER},
+      </if>
+      <if test="trafficSalary != null" >
+        trafficSalary = #{trafficSalary,jdbcType=INTEGER},
+      </if>
+      <if test="pensionBase != null" >
+        pensionBase = #{pensionBase,jdbcType=INTEGER},
+      </if>
+      <if test="pensionPer != null" >
+        pensionPer = #{pensionPer,jdbcType=REAL},
+      </if>
+      <if test="medicalBase != null" >
+        medicalBase = #{medicalBase,jdbcType=INTEGER},
+      </if>
+      <if test="medicalPer != null" >
+        medicalPer = #{medicalPer,jdbcType=REAL},
+      </if>
+      <if test="accumulationFundBase != null" >
+        accumulationFundBase = #{accumulationFundBase,jdbcType=INTEGER},
+      </if>
+      <if test="accumulationFundPer != null" >
+        accumulationFundPer = #{accumulationFundPer,jdbcType=REAL},
+      </if>
+      <if test="sname != null" >
+        sname = #{sname,jdbcType=VARCHAR},
+      </if>
+      <if test="allSalary != null" >
+        allSalary = #{allSalary,jdbcType=REAL},
+      </if>
+      <if test="afterTimes != null" >
+        afterTimes = #{afterTimes,jdbcType=REAL},
+      </if>
+      <if test="afterOthers != null" >
+        afterOthers = #{afterOthers,jdbcType=REAL},
+      </if>
+      <if test="afterDeduct != null" >
+        afterDeduct = #{afterDeduct,jdbcType=REAL},
+      </if>
+      <if test="afterPer != null" >
+        afterPer = #{afterPer,jdbcType=REAL},
+      </if>
+      <if test="afterCount != null" >
+        afterCount = #{afterCount,jdbcType=REAL},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="org.servicify.mehrms.model.ArgsRoleRecords" >
+    update args_role_records
+    set createDate = #{createDate,jdbcType=DATE},
+      eid = #{eid,jdbcType=INTEGER},
+      did = #{did,jdbcType=INTEGER},
+      basicSalary = #{basicSalary,jdbcType=INTEGER},
+      bonus = #{bonus,jdbcType=INTEGER},
+      lunchSalary = #{lunchSalary,jdbcType=INTEGER},
+      trafficSalary = #{trafficSalary,jdbcType=INTEGER},
+      pensionBase = #{pensionBase,jdbcType=INTEGER},
+      pensionPer = #{pensionPer,jdbcType=REAL},
+      medicalBase = #{medicalBase,jdbcType=INTEGER},
+      medicalPer = #{medicalPer,jdbcType=REAL},
+      accumulationFundBase = #{accumulationFundBase,jdbcType=INTEGER},
+      accumulationFundPer = #{accumulationFundPer,jdbcType=REAL},
+      sname = #{sname,jdbcType=VARCHAR},
+      allSalary = #{allSalary,jdbcType=REAL},
+      afterTimes = #{afterTimes,jdbcType=REAL},
+      afterOthers = #{afterOthers,jdbcType=REAL},
+      afterDeduct = #{afterDeduct,jdbcType=REAL},
+      afterPer = #{afterPer,jdbcType=REAL},
+      afterCount = #{afterCount,jdbcType=REAL},
+      remark = #{remark,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <!--
+    /**
+      * Created by Servicify
+      * Date 2021/6/7
+      * Time 9:08
+    **/
+-->
+</mapper>

@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title><span th:text="${startDate}"></span>至<span th:text="${endDate}"></span>工资明细邮件</title>
+</head>
+<body style="margin:0px;padding:0px;font-family: STXingkai;font-size: 24px;background-color: #fcffcc;color: #8f8f8f">
+<div style="margin:0px;padding:0px;font-family: STXingkai;font-size: 24px;background-color: #fcffcc;color: #8f8f8f">
+<!--    <canvas id='d1' height="100%" width="100%" style="position:absolute;z-index:-100;filter: alpha(opacity:50);opacity: 0.5">-->
+<!--    </canvas>-->
+<div style="margin:0px 0px 0px 0px;padding:0px;font-size: 24px;font-family: STXingkai;background-color: #fcffcc;color: #8f8f8f">
+尊敬的<strong th:text="${name}"></strong><em th:text="${genderName}"></em>:
+</div>
+<br/>
+    <div style="margin:0px 0px 0px 0px;padding:0px;font-family: STXingkai;font-size: 24px;background-color: #fcffcc;color: #8f8f8f">
+        &nbsp;&nbsp;&nbsp;&nbsp;您在<em th:text="${startDate}"></em>至<em th:text="${endDate}"></em>期间所得工资明细如下:<br/>
+    </div>
+    <br/>
+<table border="0" style="width:900px;height:800px;margin:0px 0px 0px 120px;padding:0px;font-family: STXingkai;font-size: 24px;background-color: #fcffcc;color: #8f8f8f">
+    <tr>
+        <td style="font-family: STXingkai;font-size: 24px;background-color: #fcffcc;color: #8f8f8f">姓名:</td>
+        <td th:text="${name}" style="font-family: STXingkai;font-size: 24px;background-color: #fcffcc;color: #8f8f8f"></td>
+        <td style="font-family: STXingkai;font-size: 24px;background-color: #fcffcc;color: #8f8f8f">性别:</td>
+        <td th:text="${gender}" style="font-family: STXingkai;font-size: 24px;background-color: #fcffcc;color: #8f8f8f"></td>
+        <td style="font-family: STXingkai;font-size: 24px;background-color: #fcffcc;color: #8f8f8f">工号:</td>
+        <td th:text="${workID}" style="font-family: STXingkai;font-size: 24px;background-color: #fcffcc;color: #8f8f8f"></td>
+    </tr>
+    <tr>
+        <td style="font-family: STXingkai;font-size: 24px;background-color: #fcffcc;color: #8f8f8f">开始日期:</td>
+        <td th:text="${startDate}" style="font-family: STXingkai;font-size: 24px;background-color: #fcffcc;color: #8f8f8f"></td>
+        <td style="font-family: STXingkai;font-size: 24px;background-color: #fcffcc;color: #8f8f8f">结束日期:</td>
+        <td th:text="${endDate}" style="font-family: STXingkai;font-size: 24px;background-color: #fcffcc;color: #8f8f8f"></td>
+        <td style="font-family: STXingkai;font-size: 24px;background-color: #fcffcc;color: #8f8f8f">所属部门:</td>
+        <td th:text="${dname}" style="font-family: STXingkai;font-size: 24px;background-color: #fcffcc;color: #8f8f8f"></td>
+    </tr>
+    <tr>
+        <td style="font-family: STXingkai;font-size: 24px;background-color: #fcffcc;color: #8f8f8f">所在职位:</td>
+        <td th:text="${pname}" style="font-family: STXingkai;font-size: 24px;background-color: #fcffcc;color: #8f8f8f"></td>
+        <td style="font-family: STXingkai;font-size: 24px;background-color: #fcffcc;color: #8f8f8f">职称名称:</td>
+        <td th:text="${jname}" style="font-family: STXingkai;font-size: 24px;background-color: #fcffcc;color: #8f8f8f"></td>
+        <td style="font-family: STXingkai;font-size: 24px;background-color: #fcffcc;color: #8f8f8f">工龄:</td>
+        <td th:text="${workAge}" style="font-family: STXingkai;font-size: 24px;background-color: #fcffcc;color: #8f8f8f"></td>
+    </tr>
+    <tr>
+        <td style="font-family: STXingkai;font-size: 24px;background-color: #fcffcc;color: #8f8f8f">账套名称:</td>
+        <td th:text="${scopeRowSname}" style="font-family: STXingkai;font-size: 24px;background-color: #fcffcc;color: #8f8f8f"></td>
+        <td style="font-family: STXingkai;font-size: 24px;background-color: #fcffcc;color: #8f8f8f">基本工资:</td>
+        <td th:text="${scopeRowBasicSalary}" style="font-family: STXingkai;font-size: 24px;background-color: #fcffcc;color: #8f8f8f"></td>
+        <td style="font-family: STXingkai;font-size: 24px;background-color: #fcffcc;color: #8f8f8f">交通补助:</td>
+        <td th:text="${scopeRowTrafficSalary}" style="font-family: STXingkai;font-size: 24px;background-color: #fcffcc;color: #8f8f8f"></td>
+    </tr>
+    <tr>
+        <td style="font-family: STXingkai;font-size: 24px;background-color: #fcffcc;color: #8f8f8f">午餐补助:</td>
+        <td th:text="${scopeRowLunchSalary}" style="font-family: STXingkai;font-size: 24px;background-color: #fcffcc;color: #8f8f8f"></td>
+        <td style="font-family: STXingkai;font-size: 24px;background-color: #fcffcc;color: #8f8f8f">奖金:</td>
+        <td th:text="${scopeRowBonus}" style="font-family: STXingkai;font-size: 24px;background-color: #fcffcc;color: #8f8f8f"></td>
+        <td style="font-family: STXingkai;font-size: 24px;background-color: #fcffcc;color: #8f8f8f">养老金比率:</td>
+        <td th:text="${scopeRowPensionPer}" style="font-family: STXingkai;font-size: 24px;background-color: #fcffcc;color: #8f8f8f"></td>
+    </tr>
+    <tr>
+        <td style="font-family: STXingkai;font-size: 24px;background-color: #fcffcc;color: #8f8f8f">养老金基数:</td>
+        <td th:text="${scopeRowPensionBase}" style="font-family: STXingkai;font-size: 24px;background-color: #fcffcc;color: #8f8f8f"></td>
+        <td style="font-family: STXingkai;font-size: 24px;background-color: #fcffcc;color: #8f8f8f">医疗保险比率:</td>
+        <td th:text="${scopeRowMedicalPer}" style="font-family: STXingkai;font-size: 24px;background-color: #fcffcc;color: #8f8f8f"></td>
+        <td style="font-family: STXingkai;font-size: 24px;background-color: #fcffcc;color: #8f8f8f">医疗保险基数:</td>
+        <td th:text="${scopeRowMedicalBase}" style="font-family: STXingkai;font-size: 24px;background-color: #fcffcc;color: #8f8f8f"></td>
+    </tr>
+    <tr>
+        <td style="font-family: STXingkai;font-size: 24px;background-color: #fcffcc;color: #8f8f8f">公积金比率:</td>
+        <td th:text="${scopeRowAccumulationFundPer}" style="font-family: STXingkai;font-size: 24px;background-color: #fcffcc;color: #8f8f8f"></td>
+        <td style="font-family: STXingkai;font-size: 24px;background-color: #fcffcc;color: #8f8f8f">公积金基数:</td>
+        <td th:text="${scopeRowAccumulationFundBase}" style="font-family: STXingkai;font-size: 24px;background-color: #fcffcc;color: #8f8f8f"></td>
+        <td style="font-family: STXingkai;font-size: 24px;background-color: #fcffcc;color: #8f8f8f">工资翻倍数:</td>
+        <td th:text="${times}" style="font-family: STXingkai;font-size: 24px;background-color: #fcffcc;color: #8f8f8f"></td>
+    </tr>
+    <tr>
+        <td style="font-family: STXingkai;font-size: 24px;background-color: #fcffcc;color: #8f8f8f">其他补助:</td>
+        <td th:text="${others}" style="font-family: STXingkai;font-size: 24px;background-color: #fcffcc;color: #8f8f8f"></td>
+        <td style="font-family: STXingkai;font-size: 24px;background-color: #fcffcc;color: #8f8f8f">减薪（罚款）:</td>
+        <td th:text="${deduct}" style="font-family: STXingkai;font-size: 24px;background-color: #fcffcc;color: #8f8f8f"></td>
+        <td style="font-family: STXingkai;font-size: 24px;background-color: #fcffcc;color: #8f8f8f">预支工资:</td>
+        <td th:text="${prepaid}" style="font-family: STXingkai;font-size: 24px;background-color: #fcffcc;color: #8f8f8f"></td>
+    </tr>
+    <tr>
+        <td style="font-family: STXingkai;font-size: 24px;background-color: #fcffcc;color: #8f8f8f">当月绩效总分:</td>
+        <td th:text="${accountsAdvInfoRecordScore}" style="font-family: STXingkai;font-size: 24px;background-color: #fcffcc;color: #8f8f8f"></td>
+        <td style="font-family: STXingkai;font-size: 24px;background-color: #fcffcc;color: #8f8f8f">当月绩效分值（元）:</td>
+        <td th:text="${recordPer}" style="font-family: STXingkai;font-size: 24px;background-color: #fcffcc;color: #8f8f8f"></td>
+        <td style="font-family: STXingkai;font-size: 24px;background-color: #fcffcc;color: #8f8f8f">当月绩效奖金:</td>
+        <td th:text="${accountsAdvInfoRecordSalary}" style="font-family: STXingkai;font-size: 24px;background-color: #fcffcc;color: #8f8f8f"></td>
+    </tr>
+    <tr>
+        <td style="font-family: STXingkai;font-size: 24px;background-color: #fcffcc;color: #8f8f8f">赊欠员工:</td>
+        <td th:text="${accountsAdvInfoCreditEmp}" style="font-family: STXingkai;font-size: 24px;background-color: #fcffcc;color: #8f8f8f"></td>
+        <td style="font-family: STXingkai;font-size: 24px;background-color: #fcffcc;color: #8f8f8f">赊欠公司:</td>
+        <td th:text="${accountsAdvInfoCreditCom}" style="font-family: STXingkai;font-size: 24px;background-color: #fcffcc;color: #8f8f8f"></td>
+    </tr>
+    <tr>
+        <td style="font-family: STXingkai;font-size: 24px;background-color: #fcffcc;color: #8f8f8f">备注:</td>
+        <td th:text="${remark}" style="font-family: STXingkai;font-size: 24px;background-color: #fcffcc;color: #8f8f8f"></td>
+    </tr>
+    <tr>
+        <td style="font-family: STXingkai;font-size: 24px;background-color: #fcffcc;color: #8f8f8f">实际发放:</td>
+        <td th:text="${realSalary}" style="font-family: STXingkai;font-size: 24px;background-color: #fcffcc;color: #8f8f8f"></td>
+    </tr>
+    <tr>
+        <td style="font-family: STXingkai;font-size: 24px;background-color: #fcffcc;color: #8f8f8f">出纳人签名:</td>
+        <td th:text="${cashierName}" style="font-family: STXingkai;font-size: 24px;background-color: #fcffcc;color: #8f8f8f"></td>
+    </tr>
+    <tr>
+        <td style="font-family: STXingkai;font-size: 24px;background-color: #fcffcc;color: #8f8f8f">发放时间:</td>
+        <td th:text="${sendDate}" style="font-family: STXingkai;font-size: 24px;background-color: #fcffcc;color: #8f8f8f"></td>
+    </tr>
+</table>
+    <br/>
+<div style="margin:0px;padding:0px;font-family: STXingkai;font-size: 24px;background-color: #fcffcc;color: #8f8f8f">
+    &nbsp;&nbsp;&nbsp;&nbsp;希望您在未来的日子里,再接再厉,再创辉煌!</div>
+<div style="margin:0px;padding:0px;font-family: STXingkai;font-size: 24px;background-color: #fcffcc;color: #8f8f8f">
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;----**公司人力资源管理部门HR
+</div>
+    <br/>
+<div style="margin:0px;padding:0px;font-family: STXingkai;font-size: 24px;background-color: #fcffcc;color: #8f8f8f">
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Servicify
+</div>
+    <br/>
+</div>
+</body>
+</html>
+
+<!--<script>-->
+<!--    var d1 = document.getElementById("d1");-->
+<!--    //alert($(document).width()/2);-->
+<!--    var kuan=window.innerWidth/2;-->
+<!--    d1.height=window.innerWidth;-->
+<!--    d1.width=kuan*2;-->
+<!--    var drawtree = function (ctx, startx, starty, length, angle, depth, branchWidth) {-->
+<!--        var rand = Math.random,-->
+<!--            n_length, n_angle, n_depth, maxbranch = 4,-->
+<!--            endx, endy, maxangle = 2 * Math.PI / 4;-->
+<!--        var subbranch;-->
+<!--        ctx.beginPath();-->
+<!--        ctx.moveTo(startx, starty);-->
+<!--        endx = startx + length * Math.cos(angle);-->
+<!--        endy = starty + length * Math.sin(angle);-->
+<!--        ctx.lineCap = 'round';-->
+<!--        ctx.lineWidth = branchWidth;-->
+<!--        ctx.lineTo(endx, endy);-->
+<!--        if (depth <=35) {-->
+<!--            //树的枝干-->
+<!--            ctx.strokeStyle = '#228B22';-->
+<!--        }-->
+<!--        else {-->
+<!--            //树的叶子-->
+<!--            ctx.strokeStyle = '#8B5744';-->
+<!--        }-->
+<!--        ctx.stroke();-->
+<!--        n_depth = depth - 1;-->
+<!--        //判断树是否结束-->
+<!--        if (!n_depth) {-->
+<!--            return;-->
+<!--        }-->
+<!--        subbranch = (rand() * (maxbranch - 1)) + 1;-->
+<!--        branchWidth *= 0.5;-->
+<!--        for (var i = 0; i < subbranch; i++) {-->
+<!--            n_angle = angle + rand() * maxangle - maxangle * 0.5;-->
+<!--            n_length = length * (0.7 + rand() * 0.5);-->
+<!--            setTimeout(function () {-->
+<!--                drawtree(ctx, endx, endy, n_length, n_angle, n_depth, branchWidth);-->
+<!--                return;-->
+<!--            },500)-->
+<!--        }-->
+<!--    };-->
+
+<!--    var canvas1 = document.getElementById('d1');-->
+<!--    var context = canvas1.getContext('2d');-->
+<!--    //初始化的树-->
+<!--    drawtree(context, kuan, 1100,200, -Math.PI / 2, 36, 24);-->
+<!--    //context.fill();-->
+<!--    //document.getElementById('YST').style.backgroundImage = 'url("' + context.canvas.toDataURL() + '")';-->
+
+<!--</script>-->

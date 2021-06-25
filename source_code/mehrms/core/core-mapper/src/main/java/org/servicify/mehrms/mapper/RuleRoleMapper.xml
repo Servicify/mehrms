@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.servicify.mehrms.mapper.RuleRoleMapper" >
+  <resultMap id="BaseResultMap" type="org.servicify.mehrms.model.RuleRole" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="eid" property="eid" jdbcType="INTEGER" />
+    <result column="rid" property="rid" jdbcType="INTEGER" />
+    <result column="reasonRecord" property="reasonRecord" jdbcType="VARCHAR" />
+    <result column="createDate" property="createDate" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <resultMap id="getAllInfo" type="org.servicify.mehrms.model.RuleRole" extends="BaseResultMap">
+    <association property="employee" javaType="org.servicify.mehrms.model.Employee">
+      <id column="eid" property="id" jdbcType="INTEGER"/>
+      <result column="name" property="name" jdbcType="VARCHAR"/>
+      <result column="gender" property="gender" jdbcType="CHAR"/>
+      <result column="birthday" property="birthday" jdbcType="DATE"/>
+      <result column="idCard" property="idCard" jdbcType="CHAR"/>
+      <result column="wedlock" property="wedlock" jdbcType="CHAR"/>
+      <result column="nationId" property="nationId" jdbcType="INTEGER"/>
+      <result column="nativePlace" property="nativePlace" jdbcType="VARCHAR"/>
+      <result column="politicId" property="politicId" jdbcType="INTEGER"/>
+      <result column="email" property="email" jdbcType="VARCHAR"/>
+      <result column="phone" property="phone" jdbcType="VARCHAR"/>
+      <result column="address" property="address" jdbcType="VARCHAR"/>
+      <result column="departmentId" property="departmentId" jdbcType="INTEGER"/>
+      <result column="jobLevelId" property="jobLevelId" jdbcType="INTEGER"/>
+      <result column="posId" property="posId" jdbcType="INTEGER"/>
+      <result column="engageForm" property="engageForm" jdbcType="VARCHAR"/>
+      <result column="tiptopDegree" property="tiptopDegree" jdbcType="CHAR"/>
+      <result column="specialty" property="specialty" jdbcType="VARCHAR"/>
+      <result column="school" property="school" jdbcType="VARCHAR"/>
+      <result column="beginDate" property="beginDate" jdbcType="DATE"/>
+      <result column="workState" property="workState" jdbcType="CHAR"/>
+      <result column="workID" property="workID" jdbcType="CHAR"/>
+      <result column="contractTerm" property="contractTerm" jdbcType="DOUBLE"/>
+      <result column="conversionTime" property="conversionTime" jdbcType="DATE"/>
+      <result column="notWorkDate" property="notWorkDate" jdbcType="DATE"/>
+      <result column="beginContract" property="beginContract" jdbcType="DATE"/>
+      <result column="endContract" property="endContract" jdbcType="DATE"/>
+      <result column="workAge" property="workAge" jdbcType="INTEGER"/>
+    </association>
+    <association property="rule" javaType="org.servicify.mehrms.model.Rule">
+      <id column="rid" property="id" jdbcType="INTEGER" />
+      <result column="createDate" property="createDate" jdbcType="TIMESTAMP" />
+      <result column="ruleName" property="ruleName" jdbcType="VARCHAR" />
+      <result column="ruleValue" property="ruleValue" jdbcType="INTEGER" />
+      <result column="enabled" property="enabled" jdbcType="BIT" />
+    </association>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, eid, rid, reasonRecord, createDate
+  </sql>
+<!--  使用分页查询所有员工所有月份的奖惩记录-->
+  <select id="getAllInfoByPage" resultMap="getAllInfo">
+    select rr.*,e.*,r.*
+    from rule_role rr
+    LEFT JOIN employee e ON e.`id`=rr.`eid`
+    LEFT JOIN rule r ON rr.`rid`=r.`id`
+    <where>
+    <if test="rr!=null">
+      <if test="rr.reasonRecord !=null">
+            and rr.`reasonRecord` like concat('%',#{rr.reasonRecord},'%')
+      </if>
+
+      <if test="rr.rid !=null">
+            and rr.`rid` = #{rr.rid}
+      </if>
+      <if test="beginDateScope !=null">
+            and rr.`createDate` between #{beginDateScope[0]} and #{beginDateScope[1]}
+      </if>
+    </if>
+    <if test="workID !=null">
+        and e.`workID` = #{workID}
+    </if>
+    <if test="name !=null and name!=''">
+        and e.`name` like concat('%',#{name},'%')
+    </if>
+    </where>
+    order by rr.`createDate` DESC
+    <if test="page !=null and size!=null">
+      limit #{page},#{size}
+    </if>
+  </select>
+<!--  获取总记录数-->
+  <select id="getTotal" resultType="java.lang.Long">
+    select count(*)
+    from rule_role rr
+    LEFT JOIN rule r ON rr.`rid`=r.`id`
+    LEFT JOIN employee e ON e.`id`=rr.`eid`
+    <where>
+        <if test="rr!=null">
+          <if test="rr.reasonRecord !=null">
+            and rr.`reasonRecord` like concat('%',#{rr.reasonRecord},'%')
+          </if>
+
+          <if test="rr.rid !=null">
+            and rr.`rid` = #{rr.rid}
+          </if>
+          <if test="beginDateScope !=null">
+            and rr.`createDate` between #{beginDateScope[0]} and #{beginDateScope[1]}
+          </if>
+        </if>
+        <if test="workID !=null">
+          and e.`workID` = #{workID}
+        </if>
+        <if test="name !=null and name!=''">
+          and e.`name` like concat('%',#{name},'%')
+        </if>
+    </where>
+  </select>
+  <select id="getInfosByTimes" resultMap="getAllInfo">
+    select rr.*,r.ruleName,r.ruleValue
+    from rule_role rr
+    LEFT JOIN rule r ON rr.`rid`=r.`id`
+    where
+        rr.createDate between #{startDate} and #{endDate}
+  </select>
+<!--  -->
+  <select id="getAllInfosByEidAndDate" resultMap="BaseResultMap">
+    select *
+    from rule_role
+    where
+          eid = #{eid}
+          and createDate between #{beginDateScope[0]} and #{beginDateScope[1]}
+  </select>
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from rule_role
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from rule_role
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="org.servicify.mehrms.model.RuleRole" >
+    insert into rule_role (id, eid, rid, 
+      reasonRecord, createDate)
+    values (#{id,jdbcType=INTEGER}, #{eid,jdbcType=INTEGER}, #{rid,jdbcType=INTEGER}, 
+      #{reasonRecord,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="org.servicify.mehrms.model.RuleRole" >
+    insert into rule_role
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="eid != null" >
+        eid,
+      </if>
+      <if test="rid != null" >
+        rid,
+      </if>
+      <if test="reasonRecord != null" >
+        reasonRecord,
+      </if>
+      <if test="createDate != null" >
+        createDate,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="eid != null" >
+        #{eid,jdbcType=INTEGER},
+      </if>
+      <if test="rid != null" >
+        #{rid,jdbcType=INTEGER},
+      </if>
+      <if test="reasonRecord != null" >
+        #{reasonRecord,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="org.servicify.mehrms.model.RuleRole" >
+    update rule_role
+    <set >
+      <if test="eid != null" >
+        eid = #{eid,jdbcType=INTEGER},
+      </if>
+      <if test="rid != null" >
+        rid = #{rid,jdbcType=INTEGER},
+      </if>
+      <if test="reasonRecord != null" >
+        reasonRecord = #{reasonRecord,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        createDate = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="org.servicify.mehrms.model.RuleRole" >
+    update rule_role
+    set eid = #{eid,jdbcType=INTEGER},
+      rid = #{rid,jdbcType=INTEGER},
+      reasonRecord = #{reasonRecord,jdbcType=VARCHAR},
+      createDate = #{createDate,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <!--
+    /**
+      * Created by Servicify
+      * Date 2021/6/7
+      * Time 9:08
+    **/
+-->
+</mapper>
