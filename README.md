@@ -4,19 +4,21 @@
 
   #项目采用Spring Boot、MyBatis、Spring MVC、Rabbitmq、nginx、poi、redis、ElementUI、echarts、axios等技术，作者基于原系统，自行实现了人事信息管理功能（包括员工资料、奖惩、培训、调薪、    调动5个子功能）、员工薪资管理功能（包括工资表管理、月末处理、工资表表查询3个子功能）、统计管理功能（包括员工薪资统计、积分统计、人事信息统计、人事记录统计4个子功能）以及系统设置功能（包    括奖惩规则、系统管理、操作日志管理3个子功能），在邮件系统上实现了对员工入职邮件通知以及员工月薪资明细邮件的通知功能。
 
-   #在该Spring Boot项目文件过多时，将项目重构为一个拥有三级子项目的工程，一级项目为总项目；二级项目分为两个，一个为邮件服务项目，一个为主项目；主项目中拥有三级子项目5个，分别为util层、        model层，mapper层，model层，以及controller层。
+   #在该Spring Boot项目文件过多时，将项目重构为一个拥有三级子项目的工程，一级项目为总项目；二级项目分为两个，一个为邮件服务项目，一个为主项目；主项目中拥有三级子项目5个，分别为util层、model层，mapper层，model层，以及controller层。
    
    #博主自行将系统设计的大部分思路已书写呈现于xmind文件中【初次设计，不喜勿喷】。
    
+   
    #项目开发环境及其运行环境：
-            #JDK8.0及以上
-            #Rabbitmq 3.8.0及以上
-            #nginx 1.18.0及以上
-            #MySQL 8.0及以上
-            #IDEA 2020.02
-            #Navicat Premium 任意版本
-            #Visual Studio Code 任意版本
-            #Node.js 12.0及以上
+   
+            JDK8.0及以上
+            Rabbitmq 3.8.0及以上
+            nginx 1.18.0及以上
+            MySQL 8.0及以上
+            IDEA 2020.02
+            Navicat Premium 任意版本
+            Visual Studio Code 任意版本
+            Node.js 12.0及以上
             
    #环境安装步骤：
             #1、安装java1.8/7/9
