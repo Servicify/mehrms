@@ -21,154 +21,156 @@
             Node.js 12.0及以上
             
    #环境安装步骤：
-            #1、安装java1.8/7/9
-            #在环境变量Path中添加C:\Program Files\Java\jdk1.8.0_144\bin，在cmd中检测java #-verison
+   
+            1、安装java1.8/7/9
+            在环境变量Path中添加C:\Program Files\Java\jdk1.8.0_144\bin，在cmd中检测java #-verison
 
-            #2、配置maven3
-            #在环境变量中创建一个M2_HOME的变量，变量值为C:\apache-maven-3.6.3-bin\apache-ma#ven-3.6.3
-            #在path变量中添加%M2_HOME%\bin，在cmd中检测mvn -v
+            2、配置maven3
+            在环境变量中创建一个M2_HOME的变量，变量值为C:\apache-maven-3.6.3-bin\apache-ma#ven-3.6.3
+            在path变量中添加%M2_HOME%\bin，在cmd中检测mvn -v
 
-            #3、配置Maven本地仓库
-            #在某个目录下新建maven-repository文件夹，该目录用作maven的本地库。
+            3、配置Maven本地仓库
+            在某个目录下新建maven-repository文件夹，该目录用作maven的本地库。
 
-            #打开maven\conf\settings.xml文件，
-            #更换
-            #   <mirrors>
-            #    <!-- mirror
-            #     | Specifies a repository mirror site to use instead of a given 
-            #       repository. The repository that
-            #     | this mirror serves has an ID that matches the mirrorOf element of 
-            #       this mirror. IDs are used
-            #     | for inheritance and direct lookup purposes, and must be unique a
-            #       cross the set of mirrors.
-            #    |
-            #   <mirror>
-            #     <id>mirrorId</id>
-            #     <mirrorOf>repositoryId</mirrorOf>
-            #     <name>Human Readable Name for this Mirror.</name>
-            #     <url>http://my.repository.com/repo/path</url>
-            #   </mirror>
-            #    -->
+            打开maven\conf\settings.xml文件，
+            更换
+               <mirrors>
+                <!-- mirror
+                 | Specifies a repository mirror site to use instead of a given 
+                   repository. The repository that
+                 | this mirror serves has an ID that matches the mirrorOf element of 
+                   this mirror. IDs are used
+                 | for inheritance and direct lookup purposes, and must be unique a
+                   cross the set of mirrors.
+                |
+               <mirror>
+                 <id>mirrorId</id>
+                 <mirrorOf>repositoryId</mirrorOf>
+                 <name>Human Readable Name for this Mirror.</name>
+                 <url>http://my.repository.com/repo/path</url>
+               </mirror>
+                -->
   
-            # <!-- 阿里云仓库 -->
-            #       <mirror>
-            #           <id>nexus-aliyun</id>
-            #           <name>Nexus aliyun</name>
-            #           <url>http://maven.aliyun.com/nexus/content/groups/public/</url>
-            #           <mirrorOf>central</mirrorOf>
-            #       </mirror>
+             <!-- 阿里云仓库 -->
+                   <mirror>
+                       <id>nexus-aliyun</id>
+                       <name>Nexus aliyun</name>
+                       <url>http://maven.aliyun.com/nexus/content/groups/public/</url>
+                       <mirrorOf>central</mirrorOf>
+                   </mirror>
 
-            #   <!-- 中央仓库1 -->
-            #       <!-- <mirror>
-            #           <id>repo2</id>
-            #           <name>Mirror from Maven Repo2</name>
-            #           <url>http://repo2.maven.org/maven2/</url>
-            #           <mirrorOf>central</mirrorOf>
-            #       </mirror> -->
+               <!-- 中央仓库1 -->
+                   <!-- <mirror>
+                       <id>repo2</id>
+                       <name>Mirror from Maven Repo2</name>
+                       <url>http://repo2.maven.org/maven2/</url>
+                       <mirrorOf>central</mirrorOf>
+                   </mirror> -->
 
-            #   <!-- maven在UK架设的仓库 -->
-            #       <!-- <mirror>
-            #           <id>ui</id>
-            #           <name>Mirror from UK</name>
-            #           <url>http://uk.maven.org/maven2/</url>
-            #           <mirrorOf>central</mirrorOf>
-            #       </mirror> -->
-            #   <!--JBoss的仓库-->
-            #       <!-- <mirror>
-            #           <id>jboss-public-repository-group</id>
-            #           <mirrorOf>central</mirrorOf>
-            #           <name>JBoss Public Repository Group</name>
-            #           <url>http://repository.jboss.org/nexus/content/groups/
-            #           public</url>
-            #       </mirror> -->
-            # </mirrors>
+               <!-- maven在UK架设的仓库 -->
+                   <!-- <mirror>
+                       <id>ui</id>
+                       <name>Mirror from UK</name>
+                       <url>http://uk.maven.org/maven2/</url>
+                       <mirrorOf>central</mirrorOf>
+                   </mirror> -->
+               <!--JBoss的仓库-->
+                   <!-- <mirror>
+                       <id>jboss-public-repository-group</id>
+                       <mirrorOf>central</mirrorOf>
+                       <name>JBoss Public Repository Group</name>
+                       <url>http://repository.jboss.org/nexus/content/groups/
+                       public</url>
+                   </mirror> -->
+             </mirrors>
  
 
 
-            #4、找到<localRepository>D:\Maven_Repository</localRepository>
-            #将其更改为自己的仓库
-            #运行一下DOS命令 mvn help:system
+            4、找到<localRepository>D:\Maven_Repository</localRepository>
+            将其更改为自己的仓库
+            运行一下DOS命令 mvn help:system
 
-            #如果前面的配置成功，那么maven-repository文件夹会出现一些文件。
+            如果前面的配置成功，那么maven-repository文件夹会出现一些文件。
 
-            #5、安装idea
-            #            跳过配置，
-            #            激活
+            5、安装idea
+                        跳过配置，
+                        激活
 
-            #6、RabbitMQ安装、配置与入门
-            #Erlang下载安装
-            #由于RabbitMQ使用Erlang语言编写，所以先安装Erlang语言运行环境。
-            #http://www.erlang.org/downloads
-            #下载OTP 22.0 Windows 64-bit Binary File (94094976)版本（考虑迅雷下载）
-            #下载后，直接单击Next下一步进行安装
+            6、RabbitMQ安装、配置与入门
+            Erlang下载安装
+            由于RabbitMQ使用Erlang语言编写，所以先安装Erlang语言运行环境。
+            http://www.erlang.org/downloads
+            下载OTP 22.0 Windows 64-bit Binary File (94094976)版本（考虑迅雷下载）
+            下载后，直接单击Next下一步进行安装
 
-            #然后配置环境变量
-            #ERLANG_HOME
-            #C:\Program Files\erl10.4
-            #在path中增加%ERLANG_HOME%\bin
+            然后配置环境变量
+            ERLANG_HOME
+            C:\Program Files\erl10.4
+            在path中增加%ERLANG_HOME%\bin
 
-            #RabbitMQ下载安装
-            #https://www.rabbitmq.com/install-windows.html
-            #在发布日志中找到3.7.x版本，在页面最下方找到下载（考虑迅雷）
-            #rabbitmq-server-3.7.26.exe
-            #配置环境变量
-            #RABBITMQ_SERVER=C:\Program Files\RabbitMQ Server\rabbitmq_server-3.7.15
-            #%RABBITMQ_SERVER%\sbin;
+            RabbitMQ下载安装
+            https://www.rabbitmq.com/install-windows.html
+            在发布日志中找到3.7.x版本，在页面最下方找到下载（考虑迅雷）
+            rabbitmq-server-3.7.26.exe
+            配置环境变量
+            RABBITMQ_SERVER=C:\Program Files\RabbitMQ Server\rabbitmq_server-3.7.15
+            PATH中添加%RABBITMQ_SERVER%\sbin;
 
-            #开机启动
-            #rabbitmq-service enable
-            #启动服务
-            #rabbitmq-service start
-            #查询状态
-            #rabbitmqctl status
-            #查看用户
-            #rabbitmqctl list_users
-            #开启rabbitmq_management
-            #rabbitmq-plugins enable rabbitmq_management
-            #地址 http://localhost:15672/
-            #默认的用户名：guest
-            #默认的密码为：guest
+            开机启动
+            rabbitmq-service enable
+            启动服务
+            rabbitmq-service start
+            查询状态
+            rabbitmqctl status
+            查看用户
+            rabbitmqctl list_users
+            开启rabbitmq_management
+            rabbitmq-plugins enable rabbitmq_management
+            地址 http://localhost:15672/
+            默认的用户名：guest
+            默认的密码为：guest
             
-            #8、安装nginx
-            #下载zip文件，解压双击nginx.exe
-            #nginx -s reload
+            8、安装nginx
+            下载zip文件，解压双击nginx.exe
+            nginx -s reload
 
-            #9、安装mysql8
-            #使用.exe程序安装包，zip安装包在没有安装visual 
-            #studio等环境下，会造成插件不全安装失败等错误。
-            #在path中添加环境变量
-            #C:\Program Files\MySQL\MySQL Server 8.0\bin
+            9、安装mysql8
+            使用.exe程序安装包，zip安装包在没有安装visual 
+            studio等环境下，会造成插件不全安装失败等错误。
+            在path中添加环境变量
+            C:\Program Files\MySQL\MySQL Server 8.0\bin
 
-            #https://www.jb51.net/softs/683429.html
+            https://www.jb51.net/softs/683429.html
             
-            #10、node.js安装
-            #http://nodejs.cn/download/
-            #安装vue
-            #npm install vue
-            #安装vue-cli
-            #npm install vue-cli@2.9.x -g
-            #安装elementUI
-            #npm i element-ui -S
-            #安装webpack
-            #npm install webpack@4.27.x -g
-            #安装echarts
-            #npm install echarts --save
+            10、node.js安装
+            http://nodejs.cn/download/
+            安装vue
+            npm install vue
+            安装vue-cli
+            npm install vue-cli@2.9.x -g
+            安装elementUI
+            npm i element-ui -S
+            安装webpack
+            npm install webpack@4.27.x -g
+            安装echarts
+            npm install echarts --save
 
-            #11、navicat Premium安装
+            11、navicat Premium安装
             
-            #可能出现一下问题
-            #连接出现1251错误，在workbench里面新建个sql语句
-            #1 #执行如下语句：
-            #2 #修改加密方式
-            #3 ALTER USER 'root'@'localhost' IDENTIFIED BY 'password' PASSWORD EXPIRE NEVER;
-            #4 #更新用户密码
-            #5 ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY '此处写自己的密码';
-            #6 #刷新一下权限
-            #7 FLUSH PRIVILEGES;
-            #然后运行，navicat连接ok了。
+            可能出现一下问题
+            连接出现1251错误，在workbench里面新建个sql语句
+            
+            1 #执行如下语句：
+            2 #修改加密方式
+            3 ALTER USER 'root'@'localhost' IDENTIFIED BY 'password' PASSWORD EXPIRE NEVER;
+            4 #更新用户密码
+            5 ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY '此处写自己的密码';
+            6 #刷新一下权限
+            7 FLUSH PRIVILEGES;
+            然后运行，navicat连接ok了。
 
-            #12、vscode代码
-            #https://code.visualstudio.com/Download
+            12、vscode代码
+            https://code.visualstudio.com/Download
             
    
             
